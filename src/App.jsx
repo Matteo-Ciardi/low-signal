@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import GlobalLayout from './layouts/GlobalLayout'
-import Homepage from './pages/Homepage'
+
+import GlobalLayout from '@/layouts/GlobalLayout'
+import Homepage from '@/pages/Homepage'
 
 export default function App() {
   return (

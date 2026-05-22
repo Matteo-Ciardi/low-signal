@@ -24,5 +24,5 @@ export const collections = [
     description: 'Experimental cuts and statement garments.',
     image: '/images/collections/editorial.jpg',
     featured: false,
-  }
+  },
 ]

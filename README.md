@@ -3,6 +3,7 @@
 Editorial fashion ecommerce built with modern web technologies.
 
 ## Frontend
+
 - React
 - Vite
 - Tailwind CSS
@@ -10,12 +11,14 @@ Editorial fashion ecommerce built with modern web technologies.
 - Axios
 
 ## Backend
+
 - Java
 - Spring Boot
 - Hibernate
 - PostgreSQL
 
 ## Features
+
 - Editorial homepage
 - Collections system
 - Product pages
@@ -23,4 +26,5 @@ Editorial fashion ecommerce built with modern web technologies.
 - Responsive design
 
 ## Status
+
 Currently in active development.
