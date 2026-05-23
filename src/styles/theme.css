@@ -261,6 +261,14 @@
   }
 
   /* =========================
+     BORDERS
+     ========================= */
+  
+  .mobile-menu-border {
+    border-top: 1px solid var(--color-border);
+  }
+
+  /* =========================
      SECTION SPACING
      ========================= */
 

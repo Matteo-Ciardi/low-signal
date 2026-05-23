@@ -1,10 +1,12 @@
 import { Outlet } from 'react-router'
 
+import MobileNavbar from '@/components/MobileNavbar'
+
 export default function GlobalLayout() {
   return (
     <>
       <header>
-        <h2>Sono la navbar</h2>
+        <MobileNavbar />
       </header>
 
       <main>
