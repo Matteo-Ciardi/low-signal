@@ -13,9 +13,9 @@ export default function App() {
         <Routes>
           <Route element={<GlobalLayout />}>
             <Route index element={<Homepage />} />
-            <Route path='/collections' element={<Collections />} />
-            <Route path='/lookbook' element={<Lookbook />} />
-            <Route path='/about' element={<About />} />
+            <Route path="/collections" element={<Collections />} />
+            <Route path="/lookbook" element={<Lookbook />} />
+            <Route path="/about" element={<About />} />
           </Route>
         </Routes>
       </BrowserRouter>

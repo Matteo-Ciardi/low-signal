@@ -136,7 +136,7 @@
      LAYOUT
      ========================= */
 
-  --container-width: 1440px;
+  --container-width: 1800px;
   --container-padding: 1.5rem;
 
   /* =========================
@@ -263,7 +263,7 @@
   /* =========================
      BORDERS
      ========================= */
-  
+
   .mobile-menu-border {
     border-top: 1px solid var(--color-border);
   }
