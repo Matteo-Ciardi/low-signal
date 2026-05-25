@@ -1,6 +1,7 @@
 import { Outlet } from 'react-router'
 
 import Navbar from '@/components/Navbar'
+import Footer from '@/components/Footer'
 
 export default function GlobalLayout() {
   return (
@@ -14,7 +15,7 @@ export default function GlobalLayout() {
       </main>
 
       <footer>
-        <h2>Sono il footer</h2>
+        <Footer />
       </footer>
     </>
   )

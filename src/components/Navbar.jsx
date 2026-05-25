@@ -35,7 +35,7 @@ export default function Navbar() {
           </div>
 
           <div>
-            <NavLink to="/" className="font-display text-xl font-normal">
+            <NavLink to="/" className="font-display text-xl font-normal text-foreground">
               LOW SIGNAL
             </NavLink>
           </div>
