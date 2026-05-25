@@ -19,7 +19,7 @@ export default function Homepage() {
         <div className="from-background via-background/40 to-background absolute inset-0 bg-linear-to-t" />
 
         {/* CONTENUTO */}
-        <div className="container-editorial relative z-20 flex h-screen flex-col justify-end pb-20 lg:pb-40">
+        <div className="container-editorial relative z-20 flex h-screen flex-col justify-end pb-20">
           <div className="mb-10">
             <h1>NO</h1>
             <h1 className="text-primary">RULES</h1>

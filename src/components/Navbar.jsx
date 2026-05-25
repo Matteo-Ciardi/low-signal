@@ -13,7 +13,7 @@ export default function Navbar() {
 
   return (
     <>
-      <nav>
+      <nav className="bg-background fixed top-0 left-0 z-1000 w-full">
         {/* MOBILE NAVBAR */}
         <div className="container-editorial flex items-center justify-between py-1 lg:hidden">
           <div>
@@ -45,7 +45,7 @@ export default function Navbar() {
         </div>
 
         {isOpen && (
-          <div className="mobile-menu-border">
+          <div className="mobile-menu-border bg-background absolute top-full left-0 z-20 w-full">
             <div className="container-editorial flex flex-col py-4">
               {navigation.map((link) => {
                 return (
@@ -65,32 +65,34 @@ export default function Navbar() {
       </nav>
 
       {/* DESKTOP NAVBAR */}
-      <div className="container-editorial hidden grid-cols-3 items-center py-3 lg:grid">
-        <div className="flex gap-8">
-          {navigation.map((link) => {
-            return (
-              <NavLink
-                to={link.path}
-                key={link.label}
-                className={getNavLinkClass}
-              >
-                {link.label}
-              </NavLink>
-            )
-          })}
-        </div>
+      <div className="bg-background fixed top-0 left-0 z-1000 w-full">
+        <div className="container-editorial hidden grid-cols-3 items-center py-3 lg:grid">
+          <div className="flex gap-8">
+            {navigation.map((link) => {
+              return (
+                <NavLink
+                  to={link.path}
+                  key={link.label}
+                  className={getNavLinkClass}
+                >
+                  {link.label}
+                </NavLink>
+              )
+            })}
+          </div>
 
-        <div className="flex justify-center">
-          <NavLink
-            to="/"
-            className="font-display text-foreground text-xl font-normal"
-          >
-            LOW SIGNAL
-          </NavLink>
-        </div>
+          <div className="flex justify-center">
+            <NavLink
+              to="/"
+              className="font-display text-foreground text-xl font-normal"
+            >
+              LOW SIGNAL
+            </NavLink>
+          </div>
 
-        <div className="flex justify-end">
-          <ShoppingBag className="cursor-pointer" />
+          <div className="flex justify-end">
+            <ShoppingBag className="cursor-pointer" />
+          </div>
         </div>
       </div>
     </>
