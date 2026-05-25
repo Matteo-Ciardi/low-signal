@@ -13,7 +13,7 @@ export default function Navbar() {
 
   return (
     <>
-      <nav className="bg-background fixed top-0 left-0 z-1000 w-full">
+      <nav className="bg-background relative">
         {/* MOBILE NAVBAR */}
         <div className="container-editorial flex items-center justify-between py-1 lg:hidden">
           <div>
@@ -45,7 +45,7 @@ export default function Navbar() {
         </div>
 
         {isOpen && (
-          <div className="mobile-menu-border bg-background absolute top-full left-0 z-20 w-full">
+          <div className="mobile-menu-border bg-background">
             <div className="container-editorial flex flex-col py-4">
               {navigation.map((link) => {
                 return (
@@ -62,10 +62,8 @@ export default function Navbar() {
             </div>
           </div>
         )}
-      </nav>
 
-      {/* DESKTOP NAVBAR */}
-      <div className="bg-background fixed top-0 left-0 z-1000 w-full">
+        {/* DESKTOP NAVBAR */}
         <div className="container-editorial hidden grid-cols-3 items-center py-3 lg:grid">
           <div className="flex gap-8">
             {navigation.map((link) => {
@@ -94,7 +92,7 @@ export default function Navbar() {
             <ShoppingBag className="cursor-pointer" />
           </div>
         </div>
-      </div>
+      </nav>
     </>
   )
 }
