@@ -9,11 +9,13 @@ export default function Footer() {
           {/* TITOLO FOOTER */}
           <div>
             <h4>LOW SIGNAL</h4>
-            <p>Raw materials. No compromises. Made for those who move.</p>
+            <p className="mt-4">
+              Nessun compromesso. Creato per chi non ha paura di muoversi.
+            </p>
           </div>
 
           {/* SEZIONE LINKS */}
-          <section className="grid grid-cols-2 gap-y-8 py-[clamp(2.5rem,5vw,5rem)] lg:grid-cols-4 lg:py-0">
+          <section className="grid grid-cols-2 gap-y-8 pt-[clamp(2.5rem,5vw,5rem)] lg:grid-cols-4 lg:py-0">
             {footer.map(({ section, links }) => {
               return (
                 // COLONNA LINKS
@@ -40,7 +42,7 @@ export default function Footer() {
         </section>
 
         {/* INFORMATIVA */}
-        <section className="mobile-menu-border pt-4 container-editorial">
+        <section className="mobile-menu-border container-editorial mb-10 pt-4">
           <span className="text-mono">
             SITO A SCOPO DIDATTICO. OGNI PRODOTTO E' FRUTTO DI FANTASIA E NIENTE
             DI CIO' CHE E' MOSTRATO E' IN VENDITA.

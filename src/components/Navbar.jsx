@@ -9,11 +9,7 @@ export default function Navbar() {
 
   const getNavLinkClass = ({ isActive }) =>
     `cursor-pointer font-mono text-sm leading-relaxed tracking-widest transition-colors
-      ${
-        isActive
-          ? 'text-primary'
-          : 'text-foreground hover:text-muted-foreground'
-      }`
+      ${isActive ? 'text-primary' : 'hover:text-primary'}`
 
   return (
     <>
@@ -35,7 +31,10 @@ export default function Navbar() {
           </div>
 
           <div>
-            <NavLink to="/" className="font-display text-xl font-normal text-foreground">
+            <NavLink
+              to="/"
+              className="font-display text-foreground text-xl font-normal"
+            >
               LOW SIGNAL
             </NavLink>
           </div>
@@ -82,7 +81,10 @@ export default function Navbar() {
         </div>
 
         <div className="flex justify-center">
-          <NavLink to="/" className="font-display text-xl font-normal">
+          <NavLink
+            to="/"
+            className="font-display text-foreground text-xl font-normal"
+          >
             LOW SIGNAL
           </NavLink>
         </div>
