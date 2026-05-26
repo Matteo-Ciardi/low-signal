@@ -1,6 +1,5 @@
-import { motion } from 'motion/react'
-
 import { ArrowRight } from 'lucide-react'
+
 import Marquee from '@/components/Marquee'
 
 export default function Homepage() {
@@ -32,13 +31,56 @@ export default function Homepage() {
             <h1>JUST RAWS</h1>
           </div>
           <div>
-            <button className="btn-primary mb-4">
+            <button
+              onClick={() => {
+                document
+                  .getElementById('featured')
+                  ?.scrollIntoView({ behavior: 'smooth' })
+              }}
+              className="btn-primary mb-4"
+            >
               SHOP NEW DROPS
               <ArrowRight className="ml-2" size={16} />
             </button>
             <p className="text-mono text-xs">
               QUANTITA' LIMITATE - SPEDIZIONI IN TUTTO IL MONDO
             </p>
+          </div>
+        </div>
+      </section>
+
+      {/* FEATURED / NEW DROP */}
+      <section id="featured" className="bg-card scroll-mt-24">
+        <div>
+          <img src="https://images.unsplash.com/photo-1762666167416-72b1540a76b7?w=900&h=700&fit=crop&auto=format" />
+        </div>
+        <div className="section-spacing p-10">
+          <div>
+            <div className="mb-8">
+              <span className="text-label text-primary">
+                NUOVO DROP - NOME DROP
+              </span>
+            </div>
+            <div className="mb-8 w-50">
+              <h2 className="leading-none">
+                BUILT FOR THE
+                <span className="text-primary">
+                  {' '}
+                  STREET, <br />
+                </span>
+                NOT THE RUNAWAY.
+              </h2>
+            </div>
+            <div className="mb-8">
+              <p>Descrizione del prodotto presa dal DB</p>
+            </div>
+          </div>
+          <div>
+            <button className="btn-primary mr-8">
+              SHOP NOW
+              <ArrowRight className="ml-2" size={16} />
+            </button>
+            <span className='font-bold text-mono'>PREZZO DEL PRODOTTO</span>
           </div>
         </div>
       </section>
@@ -64,7 +106,7 @@ export default function Homepage() {
               </div>
             </div>
 
-            <div className="border-t lg:border-t-0 lg:border-l border-border flex flex-col items-center justify-center py-8 text-center lg:pl-20">
+            <div className="border-border flex flex-col items-center justify-center border-t py-8 text-center lg:border-t-0 lg:border-l lg:pl-20">
               <span className="text-primary mb-4 font-mono text-3xl font-bold">
                 02
               </span>
@@ -78,7 +120,7 @@ export default function Homepage() {
               </div>
             </div>
 
-            <div className="border-t lg:border-t-0 lg:border-l border-border flex flex-col items-center justify-center py-8 text-center lg:pl-20">
+            <div className="border-border flex flex-col items-center justify-center border-t py-8 text-center lg:border-t-0 lg:border-l lg:pl-20">
               <span className="text-primary mb-4 font-mono text-3xl font-bold">
                 03
               </span>
