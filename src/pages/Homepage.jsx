@@ -1,11 +1,16 @@
+import { motion } from 'motion/react'
+
 import { ArrowRight } from 'lucide-react'
+import Marquee from '@/components/Marquee'
 
 export default function Homepage() {
   return (
     <>
       {/* MARQUEE */}
-      // TODO - Capire dove mettere il marquee e completarlo
-      
+      <div className="absolute top-10 left-0 z-20 w-full lg:top-14.5">
+        <Marquee />
+      </div>
+
       {/* HERO */}
       <section className="relative min-h-screen overflow-hidden">
         <div className="absolute inset-0 z-0">
@@ -31,12 +36,13 @@ export default function Homepage() {
               SHOP NEW DROPS
               <ArrowRight className="ml-2" size={16} />
             </button>
-            <p className="text-mono text-sm">
+            <p className="text-mono text-xs">
               QUANTITA' LIMITATE - SPEDIZIONI IN TUTTO IL MONDO
             </p>
           </div>
         </div>
       </section>
+
       {/* NEWSLETTER */}
       <section className="surface-card section-spacing">
         <div className="container-editorial">
