@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { NavLink } from 'react-router'
+import { NavLink } from 'react-router-dom'
 import { Menu, ShoppingBag, X } from 'lucide-react'
 
 import { navigation } from '@/data/navigation'

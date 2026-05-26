@@ -4,7 +4,8 @@ export default function Homepage() {
   return (
     <>
       {/* MARQUEE */}
-
+      // TODO - Capire dove mettere il marquee e completarlo
+      
       {/* HERO */}
       <section className="relative min-h-screen overflow-hidden">
         <div className="absolute inset-0 z-0">
@@ -36,7 +37,6 @@ export default function Homepage() {
           </div>
         </div>
       </section>
-
       {/* NEWSLETTER */}
       <section className="surface-card section-spacing">
         <div className="container-editorial">
