@@ -1,6 +1,7 @@
 import { ArrowRight } from 'lucide-react'
 
 import Marquee from '@/components/Marquee'
+import HomeGrid from '@/components/HomeGrid'
 
 export default function Homepage() {
   return (
@@ -50,9 +51,16 @@ export default function Homepage() {
       </section>
 
       {/* FEATURED / NEW DROP */}
-      <section id="featured" className="bg-card scroll-mt-24 lg:flex lg:gap-20 mobile-menu-border">
+      <section
+        id="featured"
+        className="bg-card mobile-menu-border scroll-mt-24 lg:flex lg:gap-20"
+      >
         <div>
-          <img src="https://images.unsplash.com/photo-1762666167416-72b1540a76b7?w=900&h=700&fit=crop&auto=format" />
+          <img
+            src="https://images.unsplash.com/photo-1762666167416-72b1540a76b7?w=900&h=700&fit=crop&auto=format"
+            alt="immagine prodotto"
+            className="h-full w-full object-cover"
+          />
         </div>
         <div className="section-spacing p-10">
           <div>
@@ -80,16 +88,20 @@ export default function Homepage() {
               SHOP NOW
               <ArrowRight className="ml-2" size={16} />
             </button>
-            <span className='font-bold text-mono'>PREZZO DEL PRODOTTO</span>
+            <span className="text-mono font-bold">PREZZO DEL PRODOTTO</span>
           </div>
         </div>
       </section>
+
+      {/* GRIGLIA PRODOTTI */}
+      <HomeGrid />
 
       {/* LOW SIGNAL PRINCIPI */}
       <section className="mobile-menu-border section-spacing">
         <div className="container-editorial lg:px-80">
           <h2 className="text-center leading-tight">
-            "WEAR IT UNTIL IT BREAKS.<br />
+            "WEAR IT UNTIL IT BREAKS.
+            <br />
             THEN WEAR IT SOME MORE"
           </h2>
           <div className="bg-card mt-20 flex flex-col justify-center lg:flex-row lg:justify-around">
