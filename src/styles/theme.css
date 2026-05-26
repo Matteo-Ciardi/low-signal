@@ -452,6 +452,11 @@
     margin-top: var(--space-8);
   }
 
+  .editorial-padding-md > * + * {
+    padding-top: var(--space-8);
+    padding-bottom: var(--space-8);
+  }
+
   .editorial-stack-lg > * + * {
     margin-top: var(--space-16);
   }

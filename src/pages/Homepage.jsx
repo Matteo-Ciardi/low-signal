@@ -43,6 +43,56 @@ export default function Homepage() {
         </div>
       </section>
 
+      {/* LOW SIGNAL PRINCIPI */}
+      <section className="mobile-menu-border section-spacing">
+        <div className="container-editorial lg:px-80">
+          <h2 className="text-center leading-tight">
+            "WEAR IT UNTIL IT BREAKS. THEN WEAR IT SOME MORE"
+          </h2>
+          <div className="bg-card mt-20 flex flex-col justify-center lg:flex-row lg:justify-around">
+            <div className="flex flex-col items-center justify-center py-8 text-center">
+              <span className="text-primary mb-4 font-mono text-3xl font-bold">
+                01
+              </span>
+              <span className="font-body text-foreground mb-4 text-xl font-bold">
+                MATERIAL TRUTH
+              </span>
+              <div className="w-70">
+                <p>
+                  We use fabrics that improve with age. No synthetic shortcuts.
+                </p>
+              </div>
+            </div>
+
+            <div className="border-t lg:border-t-0 lg:border-l border-border flex flex-col items-center justify-center py-8 text-center lg:pl-20">
+              <span className="text-primary mb-4 font-mono text-3xl font-bold">
+                02
+              </span>
+              <span className="font-body text-foreground mb-4 text-xl font-bold">
+                ANTI-TREND
+              </span>
+              <div className="w-70">
+                <p>
+                  We use fabrics that improve with age. No synthetic shortcuts.
+                </p>
+              </div>
+            </div>
+
+            <div className="border-t lg:border-t-0 lg:border-l border-border flex flex-col items-center justify-center py-8 text-center lg:pl-20">
+              <span className="text-primary mb-4 font-mono text-3xl font-bold">
+                03
+              </span>
+              <span className="font-body text-foreground mb-4 text-xl font-bold">
+                MADE TO LAST
+              </span>
+              <p className="w-70">
+                We use fabrics that improve with age. No synthetic shortcuts.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* NEWSLETTER */}
       <section className="surface-card section-spacing">
         <div className="container-editorial">
