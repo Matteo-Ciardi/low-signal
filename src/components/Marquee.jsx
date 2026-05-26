@@ -27,7 +27,7 @@ export default function Marquee() {
                 className="text-mono text-background px-8 text-xs font-bold tracking-[0.25em]"
               >
                 {item}
-                <span className='ml-15'>/</span>
+                <span className="ml-15">/</span>
               </span>
             ))}
           </div>
