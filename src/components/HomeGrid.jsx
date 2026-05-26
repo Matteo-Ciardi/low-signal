@@ -1,13 +1,14 @@
+import ProductCard from './ProductCard'
 import { products } from '@/data/products'
 
 export default function HomeGrid() {
   return (
     <>
-      <section className='mobile-menu-border section-spacing'>
-        <div className='container-editorial product-grid'>
-           
-        </div>
-      </section>
+      <div className="product-grid">
+        {products.map((prod) => {
+          return <ProductCard key={prod.id} product={prod} />
+        })}
+      </div>
     </>
   )
 }

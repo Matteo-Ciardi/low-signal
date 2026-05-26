@@ -1,199 +1,113 @@
 export const products = [
   {
     id: 1,
-    slug: 'signal-hoodie-black',
-    name: 'Signal Hoodie',
-    subtitle: 'Heavyweight Washed Cotton',
-    price: 120,
-
-    description:
-      'Oversized hoodie constructed from heavyweight brushed cotton with faded treatment and dropped shoulders.',
-
-    collection: 'essentials',
-
-    featured: true,
-
-    stock: 12,
-
-    sizes: ['S', 'M', 'L', 'XL'],
-
-    images: [
-      {
-        id: 1,
-        url: '/images/products/signal-hoodie-black-1.jpg',
-        alt: 'Signal Hoodie Front',
-      },
-
-      {
-        id: 2,
-        url: '/images/products/signal-hoodie-black-2.jpg',
-        alt: 'Signal Hoodie Back',
-      },
-    ],
+    name: "WRAITH HOODIE",
+    price: 148,
+    category: "TOPS",
+    tag: "NEW DROP",
+    collection: "SS25",
+    img: "https://images.unsplash.com/photo-1768084356884-22bb77e76931?w=600&h=750&fit=crop&auto=format",
+    sizes: ["XS", "S", "M", "L", "XL"],
+    desc: "950gsm French terry. Oversized silhouette. Raw edge seams.",
   },
-
   {
     id: 2,
-    slug: 'gravity-bomber-jacket',
-    name: 'Gravity Bomber',
-    subtitle: 'Technical Nylon Shell',
-    price: 260,
-
-    description:
-      'Boxy bomber jacket featuring matte technical nylon construction with oversized utility pockets.',
-
-    collection: 'outerwear',
-
-    featured: true,
-
-    stock: 6,
-
-    sizes: ['M', 'L', 'XL'],
-
-    images: [
-      {
-        id: 1,
-        url: '/images/products/gravity-bomber-1.jpg',
-        alt: 'Gravity Bomber Front',
-      },
-
-      {
-        id: 2,
-        url: '/images/products/gravity-bomber-2.jpg',
-        alt: 'Gravity Bomber Detail',
-      },
-    ],
+    name: "EXOSKELETON CARGO",
+    price: 212,
+    category: "BOTTOMS",
+    tag: "LIMITED",
+    collection: "SS25",
+    img: "https://images.unsplash.com/photo-1762666167421-ff983e35ba98?w=600&h=750&fit=crop&auto=format",
+    sizes: ["28", "30", "32", "34", "36"],
+    desc: "16oz selvedge denim. Articulated knee. 8 functional pockets.",
   },
-
   {
     id: 3,
-    slug: 'void-cargo-pants',
-    name: 'Void Cargo Pants',
-    subtitle: 'Relaxed Utility Fit',
-    price: 180,
-
-    description:
-      'Wide-leg cargo trousers with articulated seams and oversized side storage pockets.',
-
-    collection: 'editorial',
-
-    featured: false,
-
-    stock: 9,
-
-    sizes: ['S', 'M', 'L'],
-
-    images: [
-      {
-        id: 1,
-        url: '/images/products/void-cargo-1.jpg',
-        alt: 'Void Cargo Front',
-      },
-
-      {
-        id: 2,
-        url: '/images/products/void-cargo-2.jpg',
-        alt: 'Void Cargo Side',
-      },
-    ],
+    name: "SIGNAL BOMBER",
+    price: 298,
+    category: "OUTERWEAR",
+    tag: "NEW DROP",
+    collection: "SS25",
+    img: "https://images.unsplash.com/photo-1767036840968-91dc63654cd7?w=600&h=750&fit=crop&auto=format",
+    sizes: ["XS", "S", "M", "L", "XL"],
+    desc: "Reflective nylon shell. Quilted liner. Internal media pocket.",
   },
-
   {
     id: 4,
-    slug: 'signal-tee-offwhite',
-    name: 'Signal Tee',
-    subtitle: 'Oversized Organic Cotton',
-    price: 65,
-
-    description:
-      'Relaxed fit t-shirt made from dense organic cotton jersey with soft washed finish.',
-
-    collection: 'essentials',
-
-    featured: true,
-
-    stock: 18,
-
-    sizes: ['S', 'M', 'L', 'XL'],
-
-    images: [
-      {
-        id: 1,
-        url: '/images/products/signal-tee-1.jpg',
-        alt: 'Signal Tee Front',
-      },
-
-      {
-        id: 2,
-        url: '/images/products/signal-tee-2.jpg',
-        alt: 'Signal Tee Back',
-      },
-    ],
+    name: "VOID CAMP CAP",
+    price: 68,
+    category: "ACCESSORIES",
+    tag: "RESTOCKED",
+    collection: "SS25",
+    img: "https://images.unsplash.com/photo-1767036841733-cf7f5c40c18d?w=600&h=750&fit=crop&auto=format",
+    sizes: ["ONE SIZE"],
+    desc: "Washed cotton twill. Embroidered logo. Unstructured fit.",
   },
-
   {
     id: 5,
-    slug: 'frequency-crossbody-bag',
-    name: 'Frequency Bag',
-    subtitle: 'Crossbody Utility Bag',
-    price: 90,
-
-    description:
-      'Compact crossbody bag with adjustable strap and modular storage compartments.',
-
-    collection: 'accessories',
-
-    featured: false,
-
-    stock: 14,
-
-    sizes: ['ONE SIZE'],
-
-    images: [
-      {
-        id: 1,
-        url: '/images/products/frequency-bag-1.jpg',
-        alt: 'Frequency Bag Front',
-      },
-
-      {
-        id: 2,
-        url: '/images/products/frequency-bag-2.jpg',
-        alt: 'Frequency Bag Detail',
-      },
-    ],
+    name: "FRACTURE TEE",
+    price: 88,
+    category: "TOPS",
+    tag: "SOLD OUT",
+    collection: "FW24",
+    img: "https://images.unsplash.com/photo-1763750581767-b367bcd6c117?w=600&h=750&fit=crop&auto=format",
+    sizes: ["S", "M", "L"],
+    desc: "240gsm supima cotton. Garment dyed. Oversized boxy cut.",
   },
-
   {
     id: 6,
-    slug: 'noise-denim-jacket',
-    name: 'Noise Denim Jacket',
-    subtitle: 'Distressed Black Denim',
-    price: 210,
-
-    description:
-      'Structured denim jacket with washed texture and distressed seam detailing.',
-
-    collection: 'outerwear',
-
-    featured: true,
-
-    stock: 7,
-
-    sizes: ['M', 'L', 'XL'],
-
-    images: [
-      {
-        id: 1,
-        url: '/images/products/noise-denim-1.jpg',
-        alt: 'Noise Denim Front',
-      },
-
-      {
-        id: 2,
-        url: '/images/products/noise-denim-2.jpg',
-        alt: 'Noise Denim Back',
-      },
-    ],
+    name: "BLACKOUT TRACK",
+    price: 178,
+    category: "BOTTOMS",
+    tag: "NEW DROP",
+    collection: "SS25",
+    img: "https://images.unsplash.com/photo-1762666168682-8229f2a62305?w=600&h=750&fit=crop&auto=format",
+    sizes: ["XS", "S", "M", "L", "XL"],
+    desc: "Technical jersey. Tapered fit. Zip ankle and side pockets.",
   },
-]
+  {
+    id: 7,
+    name: "STATIC FIELD JACKET",
+    price: 328,
+    category: "OUTERWEAR",
+    tag: "SOLD OUT",
+    collection: "FW24",
+    img: "https://images.unsplash.com/photo-1759188863379-ae70c6f84bac?w=600&h=750&fit=crop&auto=format",
+    sizes: ["S", "M", "L", "XL"],
+    desc: "Waxed cotton ripstop. Storm flap. Removable liner.",
+  },
+  {
+    id: 8,
+    name: "GRID KNIT SWEATER",
+    price: 196,
+    category: "TOPS",
+    tag: "SOLD OUT",
+    collection: "FW24",
+    img: "https://images.unsplash.com/photo-1604689010734-72dc5075512e?w=600&h=750&fit=crop&auto=format",
+    sizes: ["XS", "S", "M", "L"],
+    desc: "Japanese merino wool. Dropped shoulder. Ribbed hem and cuffs.",
+  },
+  {
+    id: 9,
+    name: "SHADOW CARGO",
+    price: 188,
+    category: "BOTTOMS",
+    tag: "SOLD OUT",
+    collection: "SS24",
+    img: "https://images.unsplash.com/photo-1646633632840-1c95d61c909e?w=600&h=750&fit=crop&auto=format",
+    sizes: ["28", "30", "32", "34"],
+    desc: "Stonewashed canvas. Six-pocket utility. Cinch ankle.",
+  },
+  {
+    id: 10,
+    name: "RAW SEAM HOODIE",
+    price: 138,
+    category: "TOPS",
+    tag: "SOLD OUT",
+    collection: "SS24",
+    img: "https://images.unsplash.com/photo-1752674316405-549b77559eb3?w=600&h=750&fit=crop&auto=format",
+    sizes: ["S", "M", "L", "XL"],
+    desc: "Heavyweight fleece. Exposed seam construction. Kangaroo pocket.",
+  },
+];
+

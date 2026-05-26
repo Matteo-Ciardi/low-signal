@@ -94,7 +94,17 @@ export default function Homepage() {
       </section>
 
       {/* GRIGLIA PRODOTTI */}
-      <HomeGrid />
+      <section className="section-spacing container-editorial">
+        <div className="mb-12 flex justify-center">
+          <button className="btn-secondary">FILTRO 1</button>
+          <button className="btn-secondary">FILTRO 2</button>
+          <button className="btn-secondary">FILTRO 3</button>
+          <button className="btn-secondary">FILTRO 4</button>
+        </div>
+        <div className="">
+          <HomeGrid />
+        </div>
+      </section>
 
       {/* LOW SIGNAL PRINCIPI */}
       <section className="mobile-menu-border section-spacing">
