@@ -6,7 +6,7 @@ export default function Homepage() {
   return (
     <>
       {/* MARQUEE */}
-      <div className="absolute top-10 left-0 z-20 w-full lg:top-14.5">
+      <div className="absolute top-13 left-0 z-20 w-full lg:top-14.5">
         <Marquee />
       </div>
 
@@ -50,7 +50,7 @@ export default function Homepage() {
       </section>
 
       {/* FEATURED / NEW DROP */}
-      <section id="featured" className="bg-card scroll-mt-24">
+      <section id="featured" className="bg-card scroll-mt-24 lg:flex lg:gap-20 mobile-menu-border">
         <div>
           <img src="https://images.unsplash.com/photo-1762666167416-72b1540a76b7?w=900&h=700&fit=crop&auto=format" />
         </div>
@@ -61,7 +61,7 @@ export default function Homepage() {
                 NUOVO DROP - NOME DROP
               </span>
             </div>
-            <div className="mb-8 w-50">
+            <div className="mb-8 w-50 lg:w-80">
               <h2 className="leading-none">
                 BUILT FOR THE
                 <span className="text-primary">
@@ -89,7 +89,8 @@ export default function Homepage() {
       <section className="mobile-menu-border section-spacing">
         <div className="container-editorial lg:px-80">
           <h2 className="text-center leading-tight">
-            "WEAR IT UNTIL IT BREAKS. THEN WEAR IT SOME MORE"
+            "WEAR IT UNTIL IT BREAKS.<br />
+            THEN WEAR IT SOME MORE"
           </h2>
           <div className="bg-card mt-20 flex flex-col justify-center lg:flex-row lg:justify-around">
             <div className="flex flex-col items-center justify-center py-8 text-center">

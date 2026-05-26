@@ -15,7 +15,7 @@ export default function Navbar() {
     <>
       <nav className="bg-background relative">
         {/* MOBILE NAVBAR */}
-        <div className="container-editorial flex items-center justify-between py-1 lg:hidden">
+        <div className="container-editorial flex items-center justify-between py-1 lg:hidden h-13">
           <div>
             {isOpen ? (
               <X
