@@ -1,8 +1,19 @@
 export default function ProductCard({ product }) {
+  const tagClasses = {
+    RESTOCKED: 'bg-background text-foreground',
+    'NEW DROP': 'bg-primary text-background',
+    LIMITED: 'bg-foreground text-background',
+  }
+
   return (
     <>
-      <div>
-        <div className="mb-4">
+      <div className="cursor-pointer">
+        <div className="relative mb-4">
+          <span
+            className={`text-label absolute top-4 left-4 px-2 py-1 lg:px-4 lg:py-2 font-extrabold ${tagClasses[product.tag]}`}
+          >
+            {product.tag}
+          </span>
           <img
             src={product.img}
             alt={product.name}
@@ -15,8 +26,6 @@ export default function ProductCard({ product }) {
             <span className="text-foreground text-xl font-bold">
               {product.name}
             </span>
-
-            <span>{product.category}</span>
           </div>
 
           <div>

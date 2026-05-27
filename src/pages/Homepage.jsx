@@ -3,6 +3,8 @@ import { ArrowRight } from 'lucide-react'
 import Marquee from '@/components/Marquee'
 import HomeGrid from '@/components/HomeGrid'
 
+import { collections } from '@/data/collections'
+
 export default function Homepage() {
   return (
     <>
@@ -44,9 +46,19 @@ export default function Homepage() {
               <ArrowRight className="ml-2" size={16} />
             </button>
             <p className="text-mono text-xs">
-              QUANTITA' LIMITATE - SPEDIZIONI IN TUTTO IL MONDO
+              LIMITED QUANTITIES - SHIPPING WORLDWIDE
             </p>
           </div>
+        </div>
+      </section>
+
+      {/* GRIGLIA PRODOTTI */}
+      <section className="section-spacing container-editorial">
+        <div className="mb-16">
+          <span className='text-primary font-display text-2xl lg:text-4xl'>{collections[0].name}</span>
+        </div>
+        <div className="">
+          <HomeGrid />
         </div>
       </section>
 
@@ -66,7 +78,7 @@ export default function Homepage() {
           <div>
             <div className="mb-8">
               <span className="text-label text-primary">
-                NUOVO DROP - NOME DROP
+                LIMITED DROP - NOME DROP
               </span>
             </div>
             <div className="mb-8 w-50 lg:w-80">
@@ -83,26 +95,13 @@ export default function Homepage() {
               <p>Descrizione del prodotto presa dal DB</p>
             </div>
           </div>
-          <div>
+          <div className='flex gap-12 items-center'>
             <button className="btn-primary mr-8">
               SHOP NOW
               <ArrowRight className="ml-2" size={16} />
             </button>
-            <span className="text-mono font-bold">PREZZO DEL PRODOTTO</span>
+            <span className="text-mono font-bold text-foreground">€200</span>
           </div>
-        </div>
-      </section>
-
-      {/* GRIGLIA PRODOTTI */}
-      <section className="section-spacing container-editorial">
-        <div className="mb-12 flex justify-center">
-          <button className="btn-secondary">FILTRO 1</button>
-          <button className="btn-secondary">FILTRO 2</button>
-          <button className="btn-secondary">FILTRO 3</button>
-          <button className="btn-secondary">FILTRO 4</button>
-        </div>
-        <div className="">
-          <HomeGrid />
         </div>
       </section>
 
@@ -162,28 +161,28 @@ export default function Homepage() {
       <section className="surface-card section-spacing">
         <div className="container-editorial">
           <p className="text-mono text-primary mb-4 text-center">
-            AREA RISERVATA
+            RESERVED AREA
           </p>
           <h2 className="text-center leading-none">
-            ACCEDI SUBITO.
+            FIRST ACCES.
             <br />
-            SENZA RUMORE
+            NO NOISE
           </h2>
           <p className="mt-4 text-center">
-            Avvisi sui nuovi lanci, accesso anticipato e qualche annuncio
-            dall'underground.
+            Drop alerts, early access, and occasional dispatches from the
+            underground.
             <br />
-            Niente spam, noi non lo facciamo.
+            No spam — we don't do that.
           </p>
 
           {/* CAMPO EMAIL ISCRIZIONE NEWSLETTER */}
-          <form className="mt-10 flex justify-around lg:mx-150">
+          <form className="mt-10 flex justify-around lg:max-w-3xl mx-auto">
             <input
               type="text"
-              placeholder="LA TUA EMAIL"
+              placeholder="YOUR EMAIL"
               className="input-base"
             />
-            <button className="btn-primary">UNISCITI</button>
+            <button className="btn-primary">JOIN</button>
           </form>
         </div>
       </section>

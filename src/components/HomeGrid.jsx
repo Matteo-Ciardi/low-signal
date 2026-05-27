@@ -6,7 +6,9 @@ export default function HomeGrid() {
     <>
       <div className="product-grid">
         {products.map((prod) => {
-          return <ProductCard key={prod.id} product={prod} />
+          if (prod.tag === 'NEW DROP' | prod.collection === 'SS25') {
+            return <ProductCard key={prod.id} product={prod} />
+          }
         })}
       </div>
     </>
