@@ -2,43 +2,76 @@ const tagClasses = {
   RESTOCKED: 'bg-background text-foreground',
   'NEW DROP': 'bg-primary text-background',
   LIMITED: 'bg-foreground text-background',
+  'SOLD OUT': 'bg-white/10 text-foreground',
 }
 
-export default function ProductCard({ product }) {
+export default function ProductCard({ product, onOpen }) {
+  const isInteractive = typeof onOpen === 'function'
+
+  const isMobileViewport = () => {
+    if (typeof window === 'undefined') return false
+    return window.matchMedia('(max-width: 1023px)').matches
+  }
+
+  const handleActivate = () => {
+    if (!isInteractive) return
+    if (!isMobileViewport()) return
+    onOpen(product)
+  }
+
+  const handleQuickAddClick = (event) => {
+    event.stopPropagation()
+
+    if (!isInteractive) return
+    onOpen(product)
+  }
+
   return (
-    <>
-      <div className="group cursor-pointer">
-        <div className="relative mb-4 overflow-hidden">
-          <span
-            className={`z-10 text-label absolute top-4 left-4 px-2 py-1 font-extrabold lg:px-4 lg:py-2 ${tagClasses[product.tag] || 'bg-primary text-background'}`}
+    <div
+      onClick={handleActivate}
+      className={`product-card group ${isInteractive ? 'cursor-pointer' : ''}`}
+    >
+      <div className="product-card-image relative">
+        <span
+          className={`text-label absolute top-3 left-3 z-20 inline-flex px-3 py-2 font-bold ${
+            tagClasses[product.tag] ?? 'bg-card text-foreground'
+          }`}
+        >
+          {product.tag}
+        </span>
+
+        <img
+          src={product.img}
+          alt={product.name}
+          loading="lazy"
+          className="h-full w-full object-cover transition-transform duration-500 lg:group-hover:scale-105"
+        />
+
+        <div className="bg-primary absolute bottom-0 left-0 hidden w-full py-4 text-center lg:group-hover:block lg:hover:bg-orange-300">
+          <button
+            type="button"
+            onClick={handleQuickAddClick}
+            className="text-mono text-background font-extrabold"
           >
-            {product.tag}
-          </span>
-          <img
-            src={product.img}
-            alt={product.name}
-            className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
-          />
-
-          <div className="hidden absolute bottom-0 left-0 bg-primary py-4 group-hover:block hover:bg-orange-300 w-full text-center">
-            <button className="text-mono font-extrabold text-background">QUICK ADD +</button>
-          </div>
-        </div>
-
-        <div className="flex justify-between">
-          <div className="flex flex-col gap-2">
-            <span className="text-foreground text-xl font-bold">
-              {product.name}
-            </span>
-          </div>
-
-          <div>
-            <span className="text-foreground text-mono text-xl font-bold">
-              €{product.price}
-            </span>
-          </div>
+            QUICK ADD +
+          </button>
         </div>
       </div>
-    </>
+
+      <div className="product-card-content">
+        <div className="flex items-start justify-between gap-3">
+          <div>
+            <p className="text-foreground text-lg leading-none font-semibold">
+              {product.name}
+            </p>
+            <p className="text-label text-muted mt-2">{product.category}</p>
+          </div>
+
+          <span className="text-mono text-foreground text-sm">
+            € {product.price}
+          </span>
+        </div>
+      </div>
+    </div>
   )
 }
