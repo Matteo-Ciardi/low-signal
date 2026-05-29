@@ -43,7 +43,6 @@ export default function ProductCard({ product, onOpen }) {
         <img
           src={product.img}
           alt={product.name}
-          loading="lazy"
           className="h-full w-full object-cover transition-transform duration-500 lg:group-hover:scale-105"
         />
 
