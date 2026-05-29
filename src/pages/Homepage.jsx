@@ -1,11 +1,30 @@
+import { useState } from 'react'
+
 import { ArrowRight } from 'lucide-react'
 
 import Marquee from '@/components/Marquee'
 import HomeGrid from '@/components/HomeGrid'
+import QuickAddSheet from '@/components/QuickAddSheet'
 
 import { collections } from '@/data/collections'
+import { products } from '@/data/products'
 
 export default function Homepage() {
+  const [isQuickAddOpen, setIsQuickAddOpen] = useState(false)
+  const [selectedProduct, setSelectedProduct] = useState(null)
+
+  const featuredProduct = products.find((prod) => prod.tag === 'LIMITED')
+
+  const handleOpenQuickAdd = (product) => {
+    setSelectedProduct(product)
+    setIsQuickAddOpen(true)
+  }
+
+  const handleCloseQuickAdd = () => {
+    setIsQuickAddOpen(false)
+    setSelectedProduct(null)
+  }
+
   return (
     <>
       {/* MARQUEE */}
@@ -55,7 +74,9 @@ export default function Homepage() {
       {/* GRIGLIA PRODOTTI */}
       <section className="section-spacing container-editorial">
         <div className="mb-16">
-          <span className='text-primary font-display text-2xl lg:text-4xl'>{collections[0].name}</span>
+          <span className="text-primary font-display text-2xl lg:text-4xl">
+            {collections[0].name}
+          </span>
         </div>
         <div className="">
           <HomeGrid />
@@ -63,47 +84,62 @@ export default function Homepage() {
       </section>
 
       {/* FEATURED / NEW DROP */}
-      <section
-        id="featured"
-        className="bg-card mobile-menu-border scroll-mt-24 lg:flex lg:gap-20"
-      >
-        <div>
-          <img
-            src="https://images.unsplash.com/photo-1762666167416-72b1540a76b7?w=900&h=700&fit=crop&auto=format"
-            alt="immagine prodotto"
-            className="h-full w-full object-cover"
-          />
-        </div>
-        <div className="section-spacing p-10">
-          <div>
-            <div className="mb-8">
-              <span className="text-label text-primary">
-                LIMITED DROP - NOME DROP
+      {featuredProduct && (
+        <section
+          id="featured"
+          className="bg-card mobile-menu-border scroll-mt-24 lg:flex lg:gap-20"
+        >
+          <div className="lg:w-1/2">
+            <div className="aspect-5/4 h-full w-full overflow-hidden">
+              <img
+                src={featuredProduct.img}
+                alt={featuredProduct.name}
+                className="h-full w-full object-cover"
+              />
+            </div>
+          </div>
+          <div className="section-spacing p-10">
+            <div>
+              <div className="mb-8">
+                <span className="text-label text-primary">
+                  LIMITED DROP - {featuredProduct.name}
+                </span>
+              </div>
+              <div className="mb-8 w-50 lg:w-80">
+                <h2 className="leading-none">
+                  BUILT FOR THE
+                  <span className="text-primary">
+                    {' '}
+                    STREET, <br />
+                  </span>
+                  NOT THE RUNAWAY.
+                </h2>
+              </div>
+              <div className="mb-8">
+                <p>{featuredProduct.desc}</p>
+              </div>
+            </div>
+            <div className="flex items-center gap-12">
+              <button
+                onClick={() => handleOpenQuickAdd(featuredProduct)}
+                className="btn-primary mr-8"
+              >
+                SHOP NOW
+                <ArrowRight className="ml-2" size={16} />
+              </button>
+              <span className="text-mono text-foreground font-bold">
+                € {featuredProduct.price}
               </span>
             </div>
-            <div className="mb-8 w-50 lg:w-80">
-              <h2 className="leading-none">
-                BUILT FOR THE
-                <span className="text-primary">
-                  {' '}
-                  STREET, <br />
-                </span>
-                NOT THE RUNAWAY.
-              </h2>
-            </div>
-            <div className="mb-8">
-              <p>Descrizione del prodotto presa dal DB</p>
-            </div>
           </div>
-          <div className='flex gap-12 items-center'>
-            <button className="btn-primary mr-8">
-              SHOP NOW
-              <ArrowRight className="ml-2" size={16} />
-            </button>
-            <span className="text-mono font-bold text-foreground">€200</span>
-          </div>
-        </div>
-      </section>
+
+          <QuickAddSheet
+            isOpen={isQuickAddOpen}
+            product={selectedProduct}
+            onClose={handleCloseQuickAdd}
+          />
+        </section>
+      )}
 
       {/* LOW SIGNAL PRINCIPI */}
       <section className="mobile-menu-border section-spacing">
@@ -176,7 +212,7 @@ export default function Homepage() {
           </p>
 
           {/* CAMPO EMAIL ISCRIZIONE NEWSLETTER */}
-          <form className="mt-10 flex justify-around lg:max-w-3xl mx-auto">
+          <form className="mx-auto mt-10 flex justify-around lg:max-w-3xl">
             <input
               type="text"
               placeholder="YOUR EMAIL"
@@ -189,5 +225,3 @@ export default function Homepage() {
     </>
   )
 }
-
-;
