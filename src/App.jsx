@@ -5,12 +5,16 @@ import Homepage from '@/pages/Homepage'
 import Collections from '@/pages/Collections'
 import Lookbook from '@/pages/Lookbook'
 import About from '@/pages/About'
+import Signup from './pages/Signup'
+import Login from './pages/Login'
 
 export default function App() {
   return (
     <>
       <BrowserRouter>
         <Routes>
+          <Route path="/signup" element={<Signup />} />
+          <Route path="/login" element={<Login />} />
           <Route element={<GlobalLayout />}>
             <Route index element={<Homepage />} />
             <Route path="/collections" element={<Collections />} />
