@@ -199,6 +199,15 @@
     text-decoration: none;
   }
 
+  input:focus,
+  textarea:focus,
+  select:focus,
+  button:focus,
+  a:focus {
+    outline: none !important; /* Rimuove l'outline nativo del browser */
+    box-shadow: none !important; /* Rimuove l'effetto ring del plugin forms */
+  }
+
   ul,
   ol {
     list-style: none;

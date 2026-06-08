@@ -38,7 +38,7 @@ export default function Signup() {
       if (data.newsletter) {
         try {
           const newsletterResponse = await fetch(
-            'http://localhost:8080/api/newsletter/subscribe',
+            'http://localhost:8080/newsletter',
             {
               method: 'POST',
               headers: {
@@ -193,14 +193,16 @@ export default function Signup() {
               type="tel"
               placeholder="PHONE NUMBER"
               className="input-base"
-              {...register('tel')}
+              {...register('tel', {
+                required: "Il telefono e' obbliugatorio",
+              })}
             />
 
             <div className="mt-4 flex items-start gap-3">
               <input
                 type="checkbox"
                 id="newsletter"
-                className="mt-1"
+                className="border-muted-foreground/40 text-primary mt-1 h-4 w-4 cursor-pointer"
                 {...register('newsletter')}
               />
               <div>
