@@ -1,40 +1,49 @@
+import { useState, useRef } from 'react'
 import { NavLink } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
+import { useAuth } from '@/context/AuthContext'
+
+import { Eye, EyeOff } from 'lucide-react'
 
 export default function Signup() {
+  const { signup } = useAuth()
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors, isSubmitting },
   } = useForm()
 
-  const watchPassword = watch('password')
+  const passwordRef = useRef(null)
 
+  const [showPassword, setShowPassword] = useState(false)
+
+  // 1. Configurazione del registro per la password (posizionato a livello di componente)
+  const { ref: registerPasswordRef, ...passwordRest } = register('password', {
+    required: 'La password è obbligatoria',
+    minLength: {
+      value: 6,
+      message: 'La password deve avere almeno 6 caratteri',
+    },
+    pattern: {
+      value: /^(?=.*\d)(?=.*[A-Z])(?=.*[\W_]).{6,}$/,
+      message:
+        'La password deve includere almeno una maiuscola, un numero e un simbolo',
+    },
+  })
+
+  // 2. Unica funzione onSubmit per la gestione dell'invio
   const onSubmit = async (data) => {
     try {
-      const response = await fetch('http://localhost:8080/api/auth/register', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          name: data.name,
-          surname: data.surname,
-          email: data.email,
-          password: data.password,
-          phone: data.tel,
-        }),
+      // Chiamata di registrazione globale dell'AuthContext
+      await signup({
+        name: data.name,
+        surname: data.surname,
+        email: data.email,
+        password: data.password,
+        phone: data.tel,
       })
 
-      const result = await response.json()
-
-      if (!response.ok) {
-        throw new Error(
-          result.error || result.message || "Qualcosa e' andato storto"
-        )
-      }
-
+      // Gestione asincrona parallela per la newsletter (se spuntata)
       if (data.newsletter) {
         try {
           const newsletterResponse = await fetch(
@@ -73,19 +82,13 @@ export default function Signup() {
   return (
     <>
       <div className="bg-background container-editorial relative flex min-h-screen w-full items-center justify-center">
-        {/* <div className="absolute top-0 left-[-10] z-0">
-          <h1 className="text-muted-foreground/30 text-center text-[150px]">
-            SIGNUP
-          </h1>
-        </div> */}
-
         <div className="surface-card container-editor relative z-10 flex w-full max-w-md flex-col gap-8 p-8">
           <h2>
-            SIGN
-            <span className="text-primary">UP</span>
+            SIGN <span className="text-primary">UP</span>
           </h2>
 
           <form className="flex flex-col" onSubmit={handleSubmit(onSubmit)}>
+            {/* NAME */}
             <label htmlFor="name">Name</label>
             <input
               id="name"
@@ -98,6 +101,7 @@ export default function Signup() {
               <p className="mt-1 text-xs text-red-500">{errors.name.message}</p>
             )}
 
+            {/* SURNAME */}
             <label htmlFor="surname" className="mt-2">
               Surname
             </label>
@@ -107,7 +111,7 @@ export default function Signup() {
               placeholder="SURNAME"
               className="input-base"
               {...register('surname', {
-                required: "Il congnome e' obbliugatorio",
+                required: "Il cognome e' obbligatorio",
               })}
             />
             {errors.surname && (
@@ -116,6 +120,7 @@ export default function Signup() {
               </p>
             )}
 
+            {/* EMAIL */}
             <label htmlFor="email" className="mt-2">
               Email
             </label>
@@ -138,53 +143,72 @@ export default function Signup() {
               </p>
             )}
 
+            {/* PASSWORD */}
             <label htmlFor="password" className="mt-2">
               Password
             </label>
-            <input
-              id="password"
-              type="password"
-              placeholder="PASSWORD"
-              className="input-base"
-              {...register('password', {
-                required: 'La password è obbligatoria',
-                minLength: {
-                  value: 6,
-                  message: 'La password deve avere almeno 6 caratteri',
-                },
-                pattern: {
-                  value: /^(?=.*\d)(?=.*[A-Z])(?=.*[\W_]).{6,}$/,
-                  message:
-                    'La password deve includere almeno una maiuscola, un numero e un simbolo',
-                },
-              })}
-            />
+            <div className="relative w-full">
+              <input
+                id="password"
+                type={showPassword ? 'text' : 'password'}
+                placeholder="PASSWORD"
+                className="input-base pr-12"
+                {...passwordRest}
+                ref={(e) => {
+                  registerPasswordRef(e)
+                  passwordRef.current = e
+                }}
+              />
+
+              {/* Pulsante Mostra/Nascondi */}
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="text-mono text-muted-foreground hover:text-primary absolute top-1/2 right-3 -translate-y-1/2 py-2 text-xs transition-colors duration-150"
+              >
+                {showPassword ? <EyeOff /> : <Eye />}
+              </button>
+            </div>
             {errors.password && (
               <p className="mt-1 text-xs text-red-500">
                 {errors.password.message}
               </p>
             )}
 
+            {/* CONFIRM PASSWORD */}
             <label htmlFor="confirmpassword" className="mt-2">
               Confirm password
             </label>
-            <input
-              id="confirmpassword"
-              type="password"
-              placeholder="CONFIRM PASSWORD"
-              className="input-base"
-              {...register('confirmpassword', {
-                required: 'Conferma la tua password',
-                validate: (value) =>
-                  value === watchPassword || 'Le password non corrispondono',
-              })}
-            />
+            <div className="relative w-full">
+              <input
+                id="confirmpassword"
+                type={showPassword ? 'text' : 'password'}
+                placeholder="CONFIRM PASSWORD"
+                className="input-base"
+                {...register('confirmpassword', {
+                  required: 'Conferma la tua password',
+                  validate: (value) =>
+                    value === passwordRef.current?.value ||
+                    'Le password non corrispondono',
+                })}
+              />
+
+              {/* Pulsante Mostra/Nascondi */}
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="text-mono text-muted-foreground hover:text-primary absolute top-1/2 right-3 -translate-y-1/2 py-2 text-xs transition-colors duration-150"
+              >
+                {showPassword ? <EyeOff /> : <Eye />}
+              </button>
+            </div>
             {errors.confirmpassword && (
               <p className="mt-1 text-xs text-red-500">
                 {errors.confirmpassword.message}
               </p>
             )}
 
+            {/* TELEPHONE */}
             <label htmlFor="tel" className="mt-2">
               Telephone number
             </label>
@@ -193,11 +217,10 @@ export default function Signup() {
               type="tel"
               placeholder="PHONE NUMBER"
               className="input-base"
-              {...register('tel', {
-                required: "Il telefono e' obbliugatorio",
-              })}
+              {...register('tel', { required: "Il telefono e' obbligatorio" })}
             />
 
+            {/* NEWSLETTER */}
             <div className="mt-4 flex items-start gap-3">
               <input
                 type="checkbox"
@@ -216,8 +239,9 @@ export default function Signup() {
               </div>
             </div>
 
+            {/* SUBMIT */}
             <div className="mt-8">
-              <button className="btn-primary w-full">
+              <button className="btn-primary w-full" disabled={isSubmitting}>
                 {isSubmitting ? 'INVIO IN CORSO' : 'SIGNUP'}
               </button>
             </div>
@@ -225,9 +249,8 @@ export default function Signup() {
 
           <div>
             <p className="text-center text-sm">
-              Already have an account?
+              Already have an account?{' '}
               <NavLink to="/login" className="text-primary text-sm">
-                {' '}
                 Login
               </NavLink>
             </p>

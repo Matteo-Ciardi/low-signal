@@ -8,24 +8,27 @@ import About from '@/pages/About'
 import Signup from './pages/Signup'
 import Login from './pages/Login'
 import AuthLayout from './layouts/AuthLayout'
+import { AuthProvider } from './context/AuthContext'
 
 export default function App() {
   return (
     <>
-      <BrowserRouter>
-        <Routes>
-          <Route element={<AuthLayout />}>
-            <Route path="/signup" element={<Signup />} />
-            <Route path="/login" element={<Login />} />
-          </Route>
-          <Route element={<GlobalLayout />}>
-            <Route index element={<Homepage />} />
-            <Route path="/collections" element={<Collections />} />
-            <Route path="/lookbook" element={<Lookbook />} />
-            <Route path="/about" element={<About />} />
-          </Route>
-        </Routes>
-      </BrowserRouter>
+      <AuthProvider>
+        <BrowserRouter>
+          <Routes>
+            <Route element={<AuthLayout />}>
+              <Route path="/signup" element={<Signup />} />
+              <Route path="/login" element={<Login />} />
+            </Route>
+            <Route element={<GlobalLayout />}>
+              <Route index element={<Homepage />} />
+              <Route path="/collections" element={<Collections />} />
+              <Route path="/lookbook" element={<Lookbook />} />
+              <Route path="/about" element={<About />} />
+            </Route>
+          </Routes>
+        </BrowserRouter>
+      </AuthProvider>
     </>
   )
 }
