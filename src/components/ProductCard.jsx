@@ -8,10 +8,8 @@ const tagClasses = {
 export default function ProductCard({ product, onOpen }) {
   const isInteractive = typeof onOpen === 'function'
 
-  // Evita crash se l'oggetto product è undefined
   if (!product) return null
 
-  // ESTRAZIONE IMMAGINE: Cerca l'immagine contrassegnata come primaria, altrimenti prende la prima dell'array
   const primaryImageObj =
     product.images?.find((img) => img.isPrimary) || product.images?.[0]
   const productImage =

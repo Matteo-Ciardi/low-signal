@@ -9,7 +9,6 @@ export default function QuickAddContent({
   onClose,
   headerProps,
 }) {
-  // 1. Estrazione sicura dell'immagine primaria dal backend
   const productImage = useMemo(() => {
     if (!product?.images || product.images.length === 0) return ''
     const primaryImg =
@@ -17,7 +16,6 @@ export default function QuickAddContent({
     return primaryImg?.imageUrl || ''
   }, [product])
 
-  // 2. Fallback per collezione e categoria se il DB passa solo gli ID numerici
   const categoryLabel = product.category?.name || product.type || 'CLOTHING'
 
   return (

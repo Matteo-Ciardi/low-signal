@@ -16,7 +16,7 @@ export default function Login() {
     handleSubmit,
     formState: { errors, isSubmitting },
   } = useForm()
-  
+
   const from = location.state?.from?.pathname || '/'
 
   const onSubmit = async (data) => {

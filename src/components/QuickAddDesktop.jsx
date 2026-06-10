@@ -1,7 +1,3 @@
 export default function QuickAddDesktop() {
-    return (
-        <>
-            
-        </>
-    )
+  return <></>
 }

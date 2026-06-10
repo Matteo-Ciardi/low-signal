@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion'
 
 const marqueeItems = [
-  "LIMITED QUANTITY",
+  'LIMITED QUANTITY',
   'FREE SHIPPING OVER €200',
   'WORLDWIDE SHIPPING',
   'JOIN THE RESERVED AREA',
