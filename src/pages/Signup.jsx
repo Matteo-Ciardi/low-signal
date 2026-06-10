@@ -1,5 +1,5 @@
 import { useState, useRef } from 'react'
-import { NavLink } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { useAuth } from '@/context/AuthContext'
 
@@ -7,15 +7,15 @@ import { Eye, EyeOff } from 'lucide-react'
 
 export default function Signup() {
   const { signup } = useAuth()
+  const navigate = useNavigate()
+  const passwordRef = useRef(null)
+  const [showPassword, setShowPassword] = useState(false)
+
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
   } = useForm()
-
-  const passwordRef = useRef(null)
-
-  const [showPassword, setShowPassword] = useState(false)
 
   // 1. Configurazione del registro per la password (posizionato a livello di componente)
   const { ref: registerPasswordRef, ...passwordRest } = register('password', {
@@ -72,7 +72,12 @@ export default function Signup() {
         }
       }
 
-      alert('Registrazione completata con successo')
+      alert(
+        'Registrazione completata con successo! Effettua il login per accedere.'
+      )
+
+      // Sposta l'utente alla schermata di Login
+      navigate('/login', { state: { from: { pathname: '/' } }, replace: true })
     } catch (error) {
       console.error('Errore durante la registrazione:', error)
       alert(error.message)
@@ -166,7 +171,7 @@ export default function Signup() {
                 onClick={() => setShowPassword(!showPassword)}
                 className="text-mono text-muted-foreground hover:text-primary absolute top-1/2 right-3 -translate-y-1/2 py-2 text-xs transition-colors duration-150"
               >
-                {showPassword ? <EyeOff /> : <Eye />}
+                {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
               </button>
             </div>
             {errors.password && (
@@ -184,7 +189,7 @@ export default function Signup() {
                 id="confirmpassword"
                 type={showPassword ? 'text' : 'password'}
                 placeholder="CONFIRM PASSWORD"
-                className="input-base"
+                className="input-base pr-12"
                 {...register('confirmpassword', {
                   required: 'Conferma la tua password',
                   validate: (value) =>
@@ -199,7 +204,7 @@ export default function Signup() {
                 onClick={() => setShowPassword(!showPassword)}
                 className="text-mono text-muted-foreground hover:text-primary absolute top-1/2 right-3 -translate-y-1/2 py-2 text-xs transition-colors duration-150"
               >
-                {showPassword ? <EyeOff /> : <Eye />}
+                {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
               </button>
             </div>
             {errors.confirmpassword && (

@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { NavLink, useNavigate } from 'react-router-dom'
+import { NavLink, useNavigate, useLocation } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { useAuth } from '@/context/AuthContext'
 
@@ -8,6 +8,7 @@ import { Eye, EyeOff } from 'lucide-react'
 export default function Login() {
   const { login } = useAuth()
   const navigate = useNavigate()
+  const location = useLocation()
   const [showPassword, setShowPassword] = useState(false)
 
   const {
@@ -15,6 +16,8 @@ export default function Login() {
     handleSubmit,
     formState: { errors, isSubmitting },
   } = useForm()
+  
+  const from = location.state?.from?.pathname || '/'
 
   const onSubmit = async (data) => {
     try {
@@ -22,7 +25,10 @@ export default function Login() {
         email: data.email,
         password: data.password,
       })
-      navigate('/')
+
+      // Reindirizza alla pagina da cui proveniva l'utente
+      // replace: true evita di rimandarlo al login se clicca "Indietro" sul browser
+      navigate(from, { replace: true })
     } catch (error) {
       console.error('Errore durante il login:', error)
       alert(error.message)
