@@ -1,23 +1,38 @@
-import { ArrowRight, X } from "lucide-react"
+import { ArrowRight, X } from 'lucide-react'
+import { useMemo } from 'react'
+import { Link } from 'react-router-dom'
 
 export default function QuickAddContent({
   product,
   selectedSize,
   setSelectedSize,
   onClose,
-  headerProps
+  headerProps,
 }) {
+  // 1. Estrazione sicura dell'immagine primaria dal backend
+  const productImage = useMemo(() => {
+    if (!product?.images || product.images.length === 0) return ''
+    const primaryImg =
+      product.images.find((img) => img.isPrimary) || product.images[0]
+    return primaryImg?.imageUrl || ''
+  }, [product])
+
+  // 2. Fallback per collezione e categoria se il DB passa solo gli ID numerici
+  const categoryLabel = product.category?.name || product.type || 'CLOTHING'
+
   return (
     <>
-      <div className="mb-5 flex items-start justify-between gap-4"
-      {...headerProps}>
+      <div
+        className="mb-5 flex items-start justify-between gap-4"
+        {...headerProps}
+      >
         <div>
-          <p className="text-label text-primary mb-2">
-            {product.collection} / {product.category}
+          <p className="text-label text-primary mb-2 tracking-wider uppercase">
+            {categoryLabel}
           </p>
           <h3
             id="quick-add-title"
-            className="text-foreground text-2xl leading-none"
+            className="text-foreground text-2xl leading-none font-bold uppercase"
           >
             {product.name}
           </h3>
@@ -26,68 +41,91 @@ export default function QuickAddContent({
         <button
           type="button"
           onClick={onClose}
-          className="border-border text-muted inline-flex size-11 items-center justify-center rounded-full border"
+          className="border-border text-muted bg-background/50 inline-flex size-11 items-center justify-center rounded-full border transition-colors hover:text-white"
         >
           <X size={18} />
         </button>
       </div>
 
       <div className="mb-5 flex items-start gap-4">
-        <div className="bg-card h-50 w-40 shrink-0 overflow-hidden rounded-xl">
+        {/* IMMAGINE */}
+        <div className="bg-card border-border h-50 w-40 shrink-0 overflow-hidden rounded-xl border">
           <img
-            src={product.img}
+            src={productImage}
             alt={product.name}
             className="h-full w-full object-cover"
           />
         </div>
 
-        <div className="min-w-0">
-          <p className="text-sm leading-relaxed text-white/75">
-            {product.desc}
+        {/* INFO DETTAGLI */}
+        <div className="flex h-50 min-w-0 flex-col justify-between py-1">
+          <p className="line-clamp-4 text-sm leading-relaxed text-white/75">
+            {product.description || 'No description available for this item.'}
           </p>
-          <p className="text-mono text-foreground mt-2 text-lg">
-            € {product.price}
+          <p className="text-mono text-foreground mt-2 text-xl font-bold">
+            € {product.price?.toFixed(2)}
           </p>
         </div>
       </div>
 
+      {/* SELEZIONE TAGLIE */}
       <div className="mb-6">
-        <p className="text-label text-muted mb-3">Size</p>
+        <p className="text-label text-muted mb-3 font-mono text-xs tracking-wider uppercase">
+          Size
+        </p>
 
         <div className="flex flex-wrap gap-2">
-          {product.sizes?.map((size) => {
-            const isActive = selectedSize === size
+          {product.variants && product.variants.length > 0 ? (
+            product.variants.map((variant) => {
+              const sizeValue = variant.size
+              // Il bottone diventa disattivato se lo stock è 0 o negativo
+              const isAvailable = variant.stockQuantity > 0
+              const isActive = selectedSize === sizeValue
 
-            return (
-              <button
-                key={size}
-                type="button"
-                onClick={() => setSelectedSize(size)}
-                className={`border-border inline-flex h-11 min-w-12 items-center justify-center border px-4 text-sm transition-colors ${
-                  isActive
-                    ? 'bg-primary text-background border-primary'
-                    : 'text-foreground'
-                }`}
-              >
-                {size}
-              </button>
-            )
-          })}
+              return (
+                <button
+                  key={variant.id}
+                  type="button"
+                  disabled={!isAvailable}
+                  onClick={() => setSelectedSize(sizeValue)}
+                  className={`border-border inline-flex h-11 min-w-12 items-center justify-center border px-4 font-mono text-sm font-bold transition-colors ${
+                    !isAvailable
+                      ? 'text-muted cursor-not-allowed border-dashed bg-white/5 line-through opacity-20'
+                      : isActive
+                        ? 'bg-primary text-background border-primary'
+                        : 'text-foreground hover:border-white/30 hover:bg-white/5'
+                  }`}
+                >
+                  {sizeValue}
+                </button>
+              )
+            })
+          ) : (
+            <p className="font-mono text-sm text-white/40">
+              NO SIZES AVAILABLE
+            </p>
+          )}
         </div>
       </div>
 
+      {/* AZIONI */}
       <div className="flex gap-3">
-        <button
+        <Link
+          to={'/product'}
           type="button"
           className="btn-secondary flex-1"
           onClick={onClose}
         >
           Details
           <ArrowRight className="ml-2" size={16} />
-        </button>
+        </Link>
 
-        <button type="button" className="btn-primary flex-1">
-          Add to bag
+        <button
+          type="button"
+          className="btn-primary flex-1"
+          disabled={!selectedSize}
+        >
+          {selectedSize ? 'ADD TO BAG' : 'SELECT SIZE'}
         </button>
       </div>
     </>

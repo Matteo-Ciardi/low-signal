@@ -8,6 +8,16 @@ const tagClasses = {
 export default function ProductCard({ product, onOpen }) {
   const isInteractive = typeof onOpen === 'function'
 
+  // Evita crash se l'oggetto product è undefined
+  if (!product) return null
+
+  // ESTRAZIONE IMMAGINE: Cerca l'immagine contrassegnata come primaria, altrimenti prende la prima dell'array
+  const primaryImageObj =
+    product.images?.find((img) => img.isPrimary) || product.images?.[0]
+  const productImage =
+    primaryImageObj?.imageUrl ||
+    'https://images.unsplash.com/photo-1768084356884-22bb77e76931?w=600&h=750&fit=crop&auto=format'
+
   const isMobileViewport = () => {
     if (typeof window === 'undefined') return false
     return window.matchMedia('(max-width: 1023px)').matches
@@ -21,7 +31,6 @@ export default function ProductCard({ product, onOpen }) {
 
   const handleQuickAddClick = (event) => {
     event.stopPropagation()
-
     if (!isInteractive) return
     onOpen(product)
   }
@@ -37,12 +46,12 @@ export default function ProductCard({ product, onOpen }) {
             tagClasses[product.tag] ?? 'bg-card text-foreground'
           }`}
         >
-          {product.tag}
+          {product.tag || 'NEW DROP'}
         </span>
 
         <img
-          src={product.img}
-          alt={product.name}
+          src={productImage}
+          alt={product.name || 'Product Image'}
           className="h-full w-full object-cover transition-transform duration-500 lg:group-hover:scale-105"
         />
 
@@ -63,11 +72,10 @@ export default function ProductCard({ product, onOpen }) {
             <p className="text-foreground text-lg leading-none font-semibold">
               {product.name}
             </p>
-            <p className="text-label text-muted mt-2">{product.category}</p>
           </div>
 
           <span className="text-mono text-foreground text-sm">
-            € {product.price}
+            € {product.price?.toFixed(2)}
           </span>
         </div>
       </div>

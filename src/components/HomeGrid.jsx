@@ -1,17 +1,50 @@
-import { useCallback, useMemo, useState } from 'react'
+import { useCallback, useMemo, useState, useEffect } from 'react'
 
 import ProductCard from './ProductCard'
 import QuickAddSheet from './QuickAddSheet'
-import { products } from '@/data/products'
 
 export default function HomeGrid({ items }) {
+  const [dbProducts, setDbProducts] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
+
   const [isQuickAddOpen, setIsQuickAddOpen] = useState(false)
   const [selectedProduct, setSelectedProduct] = useState(null)
 
+  // Fetch dei prodotti dal Database al montaggio del componente
+  useEffect(() => {
+    if (Array.isArray(items) && items.length > 0) {
+      setLoading(false)
+      return
+    }
+
+    const fetchProducts = async () => {
+      try {
+        setLoading(true)
+        const response = await fetch('http://localhost:8080/products')
+
+        if (!response.ok) {
+          throw new Error('Impossimize recuperare i prodotti dal server')
+        }
+
+        const data = await response.json()
+        setDbProducts(data)
+      } catch (err) {
+        console.error('Errore durante il caricamento dei prodotti:', err)
+        setError(err.message)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchProducts()
+  }, [items])
+
+  // Filtriamo i prodotti per collectionId === 1
   const gridProducts = useMemo(() => {
     if (Array.isArray(items) && items.length > 0) return items
-    return products.filter((product) => product.collection === 'SS25')
-  }, [items])
+    return dbProducts.filter((product) => product.collectionId === 1)
+  }, [items, dbProducts])
 
   const openQuickAdd = useCallback((product) => {
     setSelectedProduct(product)
@@ -22,6 +55,31 @@ export default function HomeGrid({ items }) {
     setIsQuickAddOpen(false)
     setSelectedProduct(null)
   }, [])
+
+  // Stato visivo di caricamento
+  if (loading) {
+    return (
+      <div className="flex h-40 items-center justify-center">
+        <p className="text-primary animate-pulse font-mono text-xs tracking-widest">
+          LOADING DROPS...
+        </p>
+      </div>
+    )
+  }
+
+  // Stato visivo in caso di errore
+  if (error) {
+    return (
+      <div className="flex h-40 flex-col items-center justify-center text-center">
+        <p className="mb-2 font-mono text-xs tracking-widest text-red-500">
+          OFFLINE SIGNAL
+        </p>
+        <p className="text-muted text-sm">
+          Non è stato possibile caricare i prodotti.
+        </p>
+      </div>
+    )
+  }
 
   return (
     <>
