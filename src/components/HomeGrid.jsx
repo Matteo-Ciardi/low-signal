@@ -1,4 +1,5 @@
 import { useCallback, useMemo, useState, useEffect } from 'react'
+import axios from 'axios'
 
 import ProductCard from './ProductCard'
 import QuickAddSheet from './QuickAddSheet'
@@ -11,7 +12,6 @@ export default function HomeGrid({ items }) {
   const [isQuickAddOpen, setIsQuickAddOpen] = useState(false)
   const [selectedProduct, setSelectedProduct] = useState(null)
 
-  // Fetch dei prodotti dal Database al montaggio del componente
   useEffect(() => {
     if (Array.isArray(items) && items.length > 0) {
       setLoading(false)
@@ -21,17 +21,13 @@ export default function HomeGrid({ items }) {
     const fetchProducts = async () => {
       try {
         setLoading(true)
-        const response = await fetch('http://localhost:8080/products')
+  
+        const response = await axios.get('http://localhost:8080/products')
 
-        if (!response.ok) {
-          throw new Error('Impossimize recuperare i prodotti dal server')
-        }
-
-        const data = await response.json()
-        setDbProducts(data)
+        setDbProducts(response.data)
       } catch (err) {
         console.error('Errore durante il caricamento dei prodotti:', err)
-        setError(err.message)
+        setError(err.response?.data?.message || err.message)
       } finally {
         setLoading(false)
       }

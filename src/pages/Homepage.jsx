@@ -1,5 +1,5 @@
-import { useState } from 'react'
-
+import { useEffect, useState } from 'react'
+import axios from 'axios'
 import { ArrowRight } from 'lucide-react'
 
 import Marquee from '@/components/Marquee'
@@ -7,13 +7,34 @@ import HomeGrid from '@/components/HomeGrid'
 import QuickAddSheet from '@/components/QuickAddSheet'
 
 import { collections } from '@/data/collections'
-import { products } from '@/data/products'
 
 export default function Homepage() {
   const [isQuickAddOpen, setIsQuickAddOpen] = useState(false)
   const [selectedProduct, setSelectedProduct] = useState(null)
+  const [featuredProduct, setFeaturedProduct] = useState(null)
+  const [loading, setLoading] = useState(true)
 
-  const featuredProduct = products.find((prod) => prod.tag === 'LIMITED')
+  useEffect(() => {
+    const fetchFeaturedProduct = async () => {
+      try {
+        const response = await axios.get('http://localhost:8080/products')
+
+        const limitedProduct = response.data.find(
+          (prod) => prod.tag === 'LIMITED'
+        )
+
+        if (limitedProduct) {
+          setFeaturedProduct(limitedProduct)
+        }
+      } catch (error) {
+        console.error('Errore nel recupero del prodotto in evidenza:', error)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchFeaturedProduct()
+  }, [])
 
   const handleOpenQuickAdd = (product) => {
     setSelectedProduct(product)
@@ -24,6 +45,11 @@ export default function Homepage() {
     setIsQuickAddOpen(false)
     setSelectedProduct(null)
   }
+
+  const featuredImage =
+    featuredProduct?.images?.find((img) => img.isPrimary)?.imageUrl ||
+    featuredProduct?.images?.[0]?.imageUrl ||
+    ''
 
   return (
     <>
@@ -74,34 +100,36 @@ export default function Homepage() {
       {/* GRIGLIA PRODOTTI */}
       <section className="section-spacing container-editorial">
         <div className="mb-16">
-          <span className="text-primary font-display text-2xl lg:text-4xl">
-            {collections[0].name}
+          <span className="text-primary font-display text-2xl tracking-wider uppercase lg:text-4xl">
+            {collections[0]?.name || 'COLLECTION'}
           </span>
         </div>
-        <div className="">
+        <div>
           <HomeGrid />
         </div>
       </section>
 
       {/* FEATURED / NEW DROP */}
-      {featuredProduct && (
+      {!loading && featuredProduct && (
         <section
           id="featured"
           className="bg-card mobile-menu-border scroll-mt-24 lg:flex lg:gap-20"
         >
           <div className="lg:w-1/2">
-            <div className="aspect-5/4 h-full w-full overflow-hidden">
-              <img
-                src={featuredProduct.img}
-                alt={featuredProduct.name}
-                className="h-full w-full object-cover"
-              />
+            <div className="aspect-5/4 h-full w-full overflow-hidden bg-white/5">
+              {featuredImage && (
+                <img
+                  src={featuredImage}
+                  alt={featuredProduct.name}
+                  className="h-full w-full object-cover"
+                />
+              )}
             </div>
           </div>
           <div className="section-spacing p-10">
             <div>
               <div className="mb-8">
-                <span className="text-label text-primary">
+                <span className="text-label text-primary font-mono text-xs tracking-wider uppercase">
                   LIMITED DROP - {featuredProduct.name}
                 </span>
               </div>
@@ -116,7 +144,9 @@ export default function Homepage() {
                 </h2>
               </div>
               <div className="mb-8">
-                <p>{featuredProduct.desc}</p>
+                <p className="text-foreground/80 leading-relaxed">
+                  {featuredProduct.description}
+                </p>
               </div>
             </div>
             <div className="flex items-center gap-12">
@@ -127,19 +157,20 @@ export default function Homepage() {
                 SHOP NOW
                 <ArrowRight className="ml-2" size={16} />
               </button>
-              <span className="text-mono text-foreground font-bold">
-                € {featuredProduct.price}
+              <span className="text-mono text-foreground text-lg font-bold">
+                € {featuredProduct.price?.toFixed(2)}
               </span>
             </div>
           </div>
-
-          <QuickAddSheet
-            isOpen={isQuickAddOpen}
-            product={selectedProduct}
-            onClose={handleCloseQuickAdd}
-          />
         </section>
       )}
+
+      {/* MODALE QUICK ADD */}
+      <QuickAddSheet
+        isOpen={isQuickAddOpen}
+        product={selectedProduct}
+        onClose={handleCloseQuickAdd}
+      />
 
       {/* LOW SIGNAL PRINCIPI */}
       <section className="mobile-menu-border section-spacing">
@@ -200,7 +231,7 @@ export default function Homepage() {
             RESERVED AREA
           </p>
           <h2 className="text-center leading-none">
-            FIRST ACCES.
+            FIRST ACCESS.
             <br />
             NO NOISE
           </h2>
@@ -211,14 +242,18 @@ export default function Homepage() {
             No spam — we don't do that.
           </p>
 
-          {/* CAMPO EMAIL ISCRIZIONE NEWSLETTER */}
-          <form className="mx-auto mt-10 flex justify-around lg:max-w-3xl">
+          <form
+            className="mx-auto mt-10 flex justify-around lg:max-w-3xl"
+            onSubmit={(e) => e.preventDefault()}
+          >
             <input
               type="text"
               placeholder="YOUR EMAIL"
               className="input-base"
             />
-            <button className="btn-primary">JOIN</button>
+            <button type="submit" className="btn-primary">
+              JOIN
+            </button>
           </form>
         </div>
       </section>
