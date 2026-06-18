@@ -1,8 +1,8 @@
 import { useCallback, useMemo, useState, useEffect } from 'react'
-import axios from 'axios'
 
 import ProductCard from './ProductCard'
 import QuickAddSheet from './QuickAddSheet'
+import api from '@/services/api'
 
 export default function HomeGrid({ items }) {
   const [dbProducts, setDbProducts] = useState([])
@@ -21,8 +21,7 @@ export default function HomeGrid({ items }) {
     const fetchProducts = async () => {
       try {
         setLoading(true)
-  
-        const response = await axios.get('http://localhost:8080/products')
+        const response = await api.get('/products')
 
         setDbProducts(response.data)
       } catch (err) {

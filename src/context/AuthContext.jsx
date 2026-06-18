@@ -1,4 +1,5 @@
 import { createContext, useContext, useState, useEffect } from 'react'
+import api from '@/services/api'
 
 const AuthContext = createContext(null)
 
@@ -6,53 +7,44 @@ export function AuthProvider({ children }) {
   const [user, setUser] = useState(null)
   const [loading, setLoading] = useState(true)
 
-  // 1. Funzione di REGISTRAZIONE
   const signup = async (userData) => {
-    const response = await fetch('http://localhost:8080/api/auth/register', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(userData),
-    })
-
-    const result = await response.json()
-    if (!response.ok) {
-      throw new Error(
-        result.error || result.message || 'Errore durante la registrazione'
-      )
+    try {
+      const response = await api.post('/api/auth/register', userData)
+      return response.data
+    } catch (error) {
+      const errorMessage =
+        error.response?.data?.message ||
+        error.response?.data?.error ||
+        'Errore durante la registrazione'
+      throw new Error(errorMessage)
     }
-    return result
   }
 
-  // 2. Funzione di LOGIN
   const login = async (credentials) => {
-    const response = await fetch('http://localhost:8080/api/auth/login', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(credentials),
-    })
+    try {
+      const response = await api.post('/api/auth/login', credentials)
+      const result = response.data
 
-    const result = await response.json()
-    if (!response.ok) {
-      throw new Error(
-        result.error || result.message || 'Email o password errati'
-      )
+      setUser({
+        id: result.id,
+        email: result.email,
+        roles: result.roles,
+        accessToken: result.accessToken,
+      })
+
+      return result
+    } catch (error) {
+      const errorMessage =
+        error.response?.data?.message ||
+        error.response?.data?.error ||
+        'Email o password errati'
+      throw new Error(errorMessage)
     }
-
-    // Salvi l'utente e il token nello stato globale
-    setUser({
-      id: result.id,
-      email: result.email,
-      roles: result.roles,
-      accessToken: result.accessToken, // Il refreshToken è al sicuro nel cookie HTTP-Only gestito da Java
-    })
-
-    return result
   }
 
-  // 3. Funzione di LOGOUT
   const logout = async () => {
     try {
-      await fetch('http://localhost:8080/api/auth/logout', { method: 'POST' })
+      await api.post('/api/auth/logout')
     } catch (err) {
       console.error('Errore durante il logout sul server', err)
     } finally {
@@ -67,5 +59,4 @@ export function AuthProvider({ children }) {
   )
 }
 
-// Custom hook per usare l'autenticazione al volo nei componenti
 export const useAuth = () => useContext(AuthContext)

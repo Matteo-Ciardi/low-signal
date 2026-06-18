@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react'
-import axios from 'axios'
 import { ArrowRight } from 'lucide-react'
+import axios from 'axios'
 
 import Marquee from '@/components/Marquee'
 import HomeGrid from '@/components/HomeGrid'
 import QuickAddSheet from '@/components/QuickAddSheet'
+import api from '@/services/api'
 
 import { collections } from '@/data/collections'
 
@@ -17,7 +18,7 @@ export default function Homepage() {
   useEffect(() => {
     const fetchFeaturedProduct = async () => {
       try {
-        const response = await axios.get('http://localhost:8080/products')
+        const response = await api.get(`/products`)
 
         const limitedProduct = response.data.find(
           (prod) => prod.tag === 'LIMITED'
