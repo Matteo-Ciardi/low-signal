@@ -12,23 +12,23 @@ export default function ProductCard({ product, onOpen }) {
 
   const primaryImageObj =
     product.images?.find((img) => img.isPrimary) || product.images?.[0]
-  const productImage =
-    primaryImageObj?.imageUrl ||
-    'https://images.unsplash.com/photo-1768084356884-22bb77e76931?w=600&h=750&fit=crop&auto=format'
+  const productImage = primaryImageObj?.imageUrl || 'Image not available'
 
   const isMobileViewport = () => {
     if (typeof window === 'undefined') return false
     return window.matchMedia('(max-width: 1023px)').matches
   }
 
+  // Gestisce il click sull'intera card (principalmente utile per il comportamento mobile)
   const handleActivate = () => {
     if (!isInteractive) return
-    if (!isMobileViewport()) return
+    if (!isMobileViewport()) return // Su desktop lasciamo che usino il bottone Quick Add hoverable
     onOpen(product)
   }
 
+  // Gestisce il click specifico sul bottone "QUICK ADD +" (visibile solo su desktop in hover)
   const handleQuickAddClick = (event) => {
-    event.stopPropagation()
+    event.stopPropagation() // Evita il bubbling del click sulla card
     if (!isInteractive) return
     onOpen(product)
   }
@@ -53,10 +53,13 @@ export default function ProductCard({ product, onOpen }) {
           className="h-full w-full object-cover transition-transform duration-500 lg:group-hover:scale-105"
         />
 
-        <div className="bg-primary absolute bottom-0 left-0 hidden w-full py-4 text-center lg:group-hover:block lg:hover:bg-orange-300">
+        {/* Bottone Desktop su Hover */}
+        <div
+          className="bg-primary absolute bottom-0 left-0 hidden w-full py-4 text-center lg:group-hover:block lg:hover:bg-orange-300"
+          onClick={handleQuickAddClick}
+        >
           <button
             type="button"
-            onClick={handleQuickAddClick}
             className="text-mono text-background font-extrabold"
           >
             QUICK ADD +

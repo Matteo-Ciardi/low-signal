@@ -1,10 +1,11 @@
 import { useCallback, useMemo, useState, useEffect } from 'react'
 
 import ProductCard from './ProductCard'
-import QuickAddSheet from './QuickAddSheet'
+// Sostituito l'import del vecchio foglio con il Manager unificato
+import QuickAddManager from './modal/QuickAddManager'
 import api from '@/services/api'
 
-export default function HomeGrid({ items }) {
+export default function HomeGrid({ items, onProductsLoaded }) {
   const [dbProducts, setDbProducts] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
@@ -22,7 +23,6 @@ export default function HomeGrid({ items }) {
       try {
         setLoading(true)
         const response = await api.get('/products')
-
         setDbProducts(response.data)
       } catch (err) {
         console.error('Errore durante il caricamento dei prodotti:', err)
@@ -40,6 +40,12 @@ export default function HomeGrid({ items }) {
     if (Array.isArray(items) && items.length > 0) return items
     return dbProducts.filter((product) => product.collectionId === 1)
   }, [items, dbProducts])
+
+  useEffect(() => {
+    if (onProductsLoaded && gridProducts.length > 0) {
+      onProductsLoaded(gridProducts)
+    }
+  }, [gridProducts, onProductsLoaded])
 
   const openQuickAdd = useCallback((product) => {
     setSelectedProduct(product)
@@ -90,7 +96,8 @@ export default function HomeGrid({ items }) {
         })}
       </div>
 
-      <QuickAddSheet
+      {/* Utilizziamo QuickAddManager per sdoppiare la modale Desktop / Mobile */}
+      <QuickAddManager
         isOpen={isQuickAddOpen}
         product={selectedProduct}
         onClose={closeQuickAdd}

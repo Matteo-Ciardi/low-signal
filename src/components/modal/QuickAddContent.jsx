@@ -16,7 +16,7 @@ export default function QuickAddContent({
     return primaryImg?.imageUrl || ''
   }, [product])
 
-  const categoryLabel = product.category?.name || product.type || 'CLOTHING'
+  const categoryLabel = product.collectionName
 
   return (
     <>

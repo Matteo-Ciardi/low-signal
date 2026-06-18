@@ -69,7 +69,7 @@ export default function QuickAddSheet({ isOpen, product, onClose }) {
   if (!isOpen || !product) return null
 
   return createPortal(
-    <div className="fixed inset-0 z-1200 lg:hidden">
+    <div className="fixed inset-0 z-1200">
       {/* OVERLAY SFONDO */}
       <button
         type="button"

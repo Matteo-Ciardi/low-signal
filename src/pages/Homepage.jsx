@@ -1,19 +1,19 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 import { ArrowRight } from 'lucide-react'
-import axios from 'axios'
 
 import Marquee from '@/components/Marquee'
 import HomeGrid from '@/components/HomeGrid'
-import QuickAddSheet from '@/components/QuickAddSheet'
+import QuickAddManager from '@/components/modal/QuickAddManager'
 import api from '@/services/api'
-
-import { collections } from '@/data/collections'
 
 export default function Homepage() {
   const [isQuickAddOpen, setIsQuickAddOpen] = useState(false)
   const [selectedProduct, setSelectedProduct] = useState(null)
   const [featuredProduct, setFeaturedProduct] = useState(null)
   const [loading, setLoading] = useState(true)
+
+  // STATO PER IL TITOLO DINAMICO DELLA SEZIONE (Fallback iniziale sicuro)
+  const [collectionName, setCollectionName] = useState('COLLECTION')
 
   useEffect(() => {
     const fetchFeaturedProduct = async () => {
@@ -35,6 +35,16 @@ export default function Homepage() {
     }
 
     fetchFeaturedProduct()
+  }, [])
+
+  // CALLBACK PER AGGIORNARE IL TITOLO IN BASE AI PRODOTTI FILTRATI DALLA GRIGLIA
+  const handleProductsLoaded = useCallback((products) => {
+    const firstProduct = products[0]
+
+    // Se ci sono prodotti e contengono la proprietà collectionName, aggiorna lo stato
+    if (firstProduct && firstProduct.collectionName) {
+      setCollectionName(firstProduct.collectionName)
+    }
   }, [])
 
   const handleOpenQuickAdd = (product) => {
@@ -102,11 +112,12 @@ export default function Homepage() {
       <section className="section-spacing container-editorial">
         <div className="mb-16">
           <span className="text-primary font-display text-2xl tracking-wider uppercase lg:text-4xl">
-            {collections[0]?.name || 'COLLECTION'}
+            {collectionName}
           </span>
         </div>
         <div>
-          <HomeGrid />
+          {/* PASSAGGIO DELLA CALLBACK A HOMEGRID */}
+          <HomeGrid onProductsLoaded={handleProductsLoaded} />
         </div>
       </section>
 
@@ -167,7 +178,7 @@ export default function Homepage() {
       )}
 
       {/* MODALE QUICK ADD */}
-      <QuickAddSheet
+      <QuickAddManager
         isOpen={isQuickAddOpen}
         product={selectedProduct}
         onClose={handleCloseQuickAdd}
