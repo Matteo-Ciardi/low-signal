@@ -117,7 +117,7 @@ export default function QuickAddContent({
       {/* AZIONI */}
       <div className="flex gap-3">
         <Link
-          to={`/product/${product.id}`}
+          to={`/product/${product.slug}`}
           className="btn-secondary flex-1"
           onClick={onClose}
         >
