@@ -26,10 +26,21 @@ export default function Footer() {
                     </span>
                   </div>
                   <ul className="mt-2 flex flex-col">
-                    {links.map(({ label }) => {
-                      return (
-                        // TODO: CORREGGERE I NOMI DEI LINK E COLLEGARLI
-                        <NavLink key={label} className="py-2 text-xs">
+                    {links.map(({ label, href }) => {
+                      const isExternal = href?.startsWith('http')
+
+                      return isExternal ? (
+                        <a
+                          key={label}
+                          href={href}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="py-2 text-xs"
+                        >
+                          {label}
+                        </a>
+                      ) : (
+                        <NavLink key={label} to={href} className="py-2 text-xs">
                           {label}
                         </NavLink>
                       )
