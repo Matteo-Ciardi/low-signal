@@ -2,6 +2,7 @@ import { useState, useRef } from 'react'
 import { NavLink, useNavigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { useAuth } from '@/context/AuthContext'
+import api from '@/services/api'
 
 import { Eye, EyeOff } from 'lucide-react'
 
@@ -46,24 +47,9 @@ export default function Signup() {
       // Gestione asincrona parallela per la newsletter (se spuntata)
       if (data.newsletter) {
         try {
-          const newsletterResponse = await fetch(
-            'http://localhost:8080/newsletter',
-            {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-              },
-              body: JSON.stringify({
-                email: data.email,
-              }),
-            }
-          )
-
-          if (!newsletterResponse.ok) {
-            console.warn(
-              "L'utente è stato registrato, ma l'iscrizione alla newsletter è fallita."
-            )
-          }
+          await api.post('/newsletter', {
+            email: data.email,
+          })
         } catch (newsletterError) {
           console.error(
             "Errore durante l'iscrizione alla newsletter:",
