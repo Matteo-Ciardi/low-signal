@@ -11,6 +11,7 @@ import Signup from './pages/Signup'
 import Login from './pages/Login'
 import AuthLayout from './layouts/AuthLayout'
 import Product from './pages/Product'
+import Dashboard from './pages/Dashboard'
 
 export default function App() {
   return (
@@ -28,6 +29,7 @@ export default function App() {
               <Route path="/lookbook" element={<Lookbook />} />
               <Route path="/about" element={<About />} />
               <Route path="/product" element={<Product />} />
+              <Route path="/dashboard" element={<Dashboard />} />
             </Route>
           </Routes>
         </BrowserRouter>
