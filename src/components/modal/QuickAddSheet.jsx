@@ -3,7 +3,7 @@ import { createPortal } from 'react-dom'
 
 import QuickAddContent from './QuickAddContent'
 
-export default function QuickAddSheet({ isOpen, product, onClose }) {
+export default function QuickAddSheet({ isOpen, product, onClose, onAddToCart }) {
   const [selectedSize, setSelectedSize] = useState('')
   const [dragY, setDragY] = useState(0)
 
@@ -105,6 +105,7 @@ export default function QuickAddSheet({ isOpen, product, onClose }) {
           selectedSize={selectedSize}
           setSelectedSize={setSelectedSize}
           onClose={onClose}
+          onAddToCart={onAddToCart}
           headerProps={{
             className: 'mb-5 flex touch-none items-start justify-between gap-4',
             onTouchStart: handleTouchStart,

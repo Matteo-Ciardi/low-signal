@@ -1,5 +1,5 @@
-import { ArrowRight, X } from 'lucide-react'
-import { useMemo } from 'react'
+import { ArrowRight, Check, X } from 'lucide-react'
+import { useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 
 export default function QuickAddContent({
@@ -7,8 +7,16 @@ export default function QuickAddContent({
   selectedSize,
   setSelectedSize,
   onClose,
+  onAddToCart,
   headerProps,
 }) {
+  const [added, setAdded] = useState(false)
+
+  const handleAddToCart = () => {
+    if (!selectedSize) return
+    if (onAddToCart) onAddToCart({ product, size: selectedSize })
+    setAdded(true)
+  }
   const productImage = useMemo(() => {
     if (!product?.images || product.images.length === 0) return ''
     const primaryImg =
@@ -109,8 +117,7 @@ export default function QuickAddContent({
       {/* AZIONI */}
       <div className="flex gap-3">
         <Link
-          to={'/product'}
-          type="button"
+          to={`/product/${product.id}`}
           className="btn-secondary flex-1"
           onClick={onClose}
         >
@@ -122,8 +129,18 @@ export default function QuickAddContent({
           type="button"
           className="btn-primary flex-1"
           disabled={!selectedSize}
+          onClick={handleAddToCart}
         >
-          {selectedSize ? 'ADD TO BAG' : 'SELECT SIZE'}
+          {added ? (
+            <>
+              ADDED
+              <Check className="ml-2" size={16} />
+            </>
+          ) : selectedSize ? (
+            'ADD TO BAG'
+          ) : (
+            'SELECT SIZE'
+          )}
         </button>
       </div>
     </>

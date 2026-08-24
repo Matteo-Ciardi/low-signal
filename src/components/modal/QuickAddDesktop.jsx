@@ -3,7 +3,7 @@ import { createPortal } from 'react-dom'
 
 import QuickAddContent from './QuickAddContent'
 
-export default function QuickAddDesktop({ isOpen, product, onClose }) {
+export default function QuickAddDesktop({ isOpen, product, onClose, onAddToCart }) {
   // DICHIARAZIONE DEGLI STATI MANCANTI PER LE TAGLIE
   const [selectedSize, setSelectedSize] = useState(null)
 
@@ -46,6 +46,7 @@ export default function QuickAddDesktop({ isOpen, product, onClose }) {
           selectedSize={selectedSize}
           setSelectedSize={setSelectedSize}
           onClose={onClose}
+          onAddToCart={onAddToCart}
         />
       </div>
     </div>,
