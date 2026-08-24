@@ -13,6 +13,8 @@ dist-ssr
 *.local
 
 .env
+.env.development
+.env.production
 low_signal_sitemap_albero.md
 
 # Editor directories and files
