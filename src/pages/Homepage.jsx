@@ -1,5 +1,6 @@
 import { useEffect, useState, useCallback } from 'react'
 import { ArrowRight } from 'lucide-react'
+import { useForm } from 'react-hook-form'
 
 import Marquee from '@/components/Marquee'
 import HomeGrid from '@/components/HomeGrid'
@@ -14,6 +15,24 @@ export default function Homepage() {
 
   // STATO PER IL TITOLO DINAMICO DELLA SEZIONE (Fallback iniziale sicuro)
   const [collectionName, setCollectionName] = useState('COLLECTION')
+
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors, isSubmitting },
+  } = useForm()
+
+  const onSubmit = async (data) => {
+    try {
+      await api.post('/newsletter', { email: data.email })
+      reset()
+      alert('Iscrizione alla newsletter completata')
+    } catch (error) {
+      console.error("Errore durante l'iscrizione:", error)
+      alert("Errore durante l'iscrizione.Riprova")
+    }
+  }
 
   useEffect(() => {
     const fetchFeaturedProduct = async () => {
@@ -256,17 +275,33 @@ export default function Homepage() {
 
           <form
             className="mx-auto mt-10 flex justify-around lg:max-w-3xl"
-            onSubmit={(e) => e.preventDefault()}
+            onSubmit={handleSubmit(onSubmit)}
           >
             <input
-              type="text"
+              type="email"
               placeholder="YOUR EMAIL"
               className="input-base"
+              {...register('email', {
+                required: "'email e' obbligatoria",
+                pattern: {
+                  value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                  message: 'Indirizzo email non valido',
+                },
+              })}
             />
-            <button type="submit" className="btn-primary">
-              JOIN
+            <button
+              type="submit"
+              className="btn-primary"
+              disabled={isSubmitting}
+            >
+              {isSubmitting ? '...' : 'JOIN'}
             </button>
           </form>
+          {errors.email && (
+            <p className="mt-1 text-center text-xs text-red-500">
+              {errors.email.message}
+            </p>
+          )}
         </div>
       </section>
     </>
