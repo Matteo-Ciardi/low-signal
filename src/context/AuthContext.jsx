@@ -22,14 +22,13 @@ export function AuthProvider({ children }) {
 
   const login = async (credentials) => {
     try {
-      const response = await api.post('/api/auth/login', credentials)
+      const response = await api.post('/api/auth/login', credentials, { withCredentials: true })
       const result = response.data
 
       setUser({
         id: result.id,
         email: result.email,
         roles: result.roles,
-        accessToken: result.accessToken,
       })
 
       return result
@@ -44,7 +43,7 @@ export function AuthProvider({ children }) {
 
   const logout = async () => {
     try {
-      await api.post('/api/auth/logout')
+      await api.post('/api/auth/logout', {}, { withCredentials: true })
     } catch (err) {
       console.error('Errore durante il logout sul server', err)
     } finally {
@@ -55,7 +54,7 @@ export function AuthProvider({ children }) {
   useEffect(() => {
     async function checkSession() {
       try {
-        const response = await api.get('/api/auth/me')
+        const response = await api.get('/api/auth/me', { withCredentials: true })
         setUser({
           id: response.data.id,
           email: response.data.email,
