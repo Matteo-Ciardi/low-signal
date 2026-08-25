@@ -16,6 +16,7 @@ dist-ssr
 .env.development
 .env.production
 low_signal_sitemap_albero.md
+analisi.md
 
 # Editor directories and files
 .vscode/*

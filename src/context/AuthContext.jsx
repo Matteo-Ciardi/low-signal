@@ -52,6 +52,26 @@ export function AuthProvider({ children }) {
     }
   }
 
+  useEffect(() => {
+    async function checkSession() {
+      try {
+        const response = await api.get('/api/auth/me')
+        setUser({
+          id: response.data.id,
+          email: response.data.email,
+          roles: response.data.roles,
+          accessToken: response.data.accessToken,
+        })
+      } catch (error) {
+        // Utente non autenticato o errore — non bloccare il loading
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    checkSession()
+  }, [])
+
   return (
     <AuthContext.Provider value={{ user, loading, signup, login, logout }}>
       {children}
