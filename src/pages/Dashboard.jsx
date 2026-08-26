@@ -1,4 +1,15 @@
+import { AuthProvider, useAuth } from '@/context/AuthContext'
+import { useNavigate } from 'react-router-dom'
+
 export default function Dashboard() {
+  const { logout } = useAuth(AuthProvider)
+  const navigate = useNavigate()
+
+  const handleLogout = async () => {
+    await logout()
+    navigate('/')
+  }
+
   return (
     <>
       <section className="section-spacing container-editorial">
@@ -6,8 +17,10 @@ export default function Dashboard() {
           DASH<span className="text-primary">BOARD</span>
         </h1>
         <p className="text-muted mt-4">
-          Area riservata in costruzione. Qui troverai profilo, ordini e wishlist.
+          Area riservata in costruzione. Qui troverai profilo, ordini e
+          wishlist.
         </p>
+        <button onClick={handleLogout}>LOGOUT</button>
       </section>
     </>
   )
