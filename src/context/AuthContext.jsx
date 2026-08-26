@@ -22,13 +22,17 @@ export function AuthProvider({ children }) {
 
   const login = async (credentials) => {
     try {
-      const response = await api.post('/api/auth/login', credentials, { withCredentials: true })
+      const response = await api.post('/api/auth/login', credentials, {
+        withCredentials: true,
+      })
       const result = response.data
-
+      // console.log('Risposta:', response.data)
       setUser({
         id: result.id,
         email: result.email,
         roles: result.roles,
+        name: response.name,
+        surname: response.surname,
       })
 
       return result
@@ -54,12 +58,23 @@ export function AuthProvider({ children }) {
   useEffect(() => {
     async function checkSession() {
       try {
-        const response = await api.get('/api/auth/me', { withCredentials: true })
+        const response = await api.get('/api/auth/me', {
+          withCredentials: true,
+        })
+        // 
+        
+
+
+
+
+
+        
         setUser({
           id: response.data.id,
           email: response.data.email,
           roles: response.data.roles,
-          accessToken: response.data.accessToken,
+          name: response.data.name,
+          surname: response.data.surname,
         })
       } catch (error) {
         // Utente non autenticato o errore — non bloccare il loading
