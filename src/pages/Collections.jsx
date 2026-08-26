@@ -1,23 +1,11 @@
-import { useState, useCallback } from 'react'
 import { useProducts } from '@/hooks/useProducts'
+import { useQuickAdd } from '@/hooks/useQuickAdd'
 import ProductCard from '@/components/ProductCard'
-import QuickAddManager from '@/components/modal/QuickAddManager'
+import QuickAddModal from '@/components/modal/QuickAddModal'
 
 export default function Collections() {
   const { products, loading, error } = useProducts()
-
-  const [isQuickAddOpen, setIsQuickAddOpen] = useState(false)
-  const [selectedProduct, setSelectedProduct] = useState(null)
-
-  const openQuickAdd = useCallback((product) => {
-    setSelectedProduct(product)
-    setIsQuickAddOpen(true)
-  }, [])
-
-  const closeQuickAdd = useCallback(() => {
-    setIsQuickAddOpen(false)
-    setSelectedProduct(null)
-  }, [])
+  const { isOpen, product, open, close } = useQuickAdd()
 
   if (loading) {
     return (
@@ -55,16 +43,12 @@ export default function Collections() {
           <ProductCard
             key={product.id}
             product={product}
-            onOpen={openQuickAdd}
+            onOpen={open}
           />
         ))}
       </section>
 
-      <QuickAddManager
-        isOpen={isQuickAddOpen}
-        product={selectedProduct}
-        onClose={closeQuickAdd}
-      />
+      <QuickAddModal isOpen={isOpen} product={product} onClose={close} />
     </>
   )
 }

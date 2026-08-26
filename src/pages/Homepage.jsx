@@ -4,12 +4,12 @@ import { useForm } from 'react-hook-form'
 
 import Marquee from '@/components/Marquee'
 import HomeGrid from '@/components/HomeGrid'
-import QuickAddManager from '@/components/modal/QuickAddManager'
+import QuickAddModal from '@/components/modal/QuickAddModal'
+import { useQuickAdd } from '@/hooks/useQuickAdd'
 import api from '@/services/api'
 
 export default function Homepage() {
-  const [isQuickAddOpen, setIsQuickAddOpen] = useState(false)
-  const [selectedProduct, setSelectedProduct] = useState(null)
+  const { isOpen, product, open, close } = useQuickAdd()
   const [featuredProduct, setFeaturedProduct] = useState(null)
   const [loading, setLoading] = useState(true)
 
@@ -65,16 +65,6 @@ export default function Homepage() {
       setCollectionName(firstProduct.collectionName)
     }
   }, [])
-
-  const handleOpenQuickAdd = (product) => {
-    setSelectedProduct(product)
-    setIsQuickAddOpen(true)
-  }
-
-  const handleCloseQuickAdd = () => {
-    setIsQuickAddOpen(false)
-    setSelectedProduct(null)
-  }
 
   const featuredImage =
     featuredProduct?.images?.find((img) => img.isPrimary)?.imageUrl ||
@@ -182,7 +172,7 @@ export default function Homepage() {
             </div>
             <div className="flex items-center gap-12">
               <button
-                onClick={() => handleOpenQuickAdd(featuredProduct)}
+                onClick={() => open(featuredProduct)}
                 className="btn-primary mr-8"
               >
                 SHOP NOW
@@ -197,10 +187,10 @@ export default function Homepage() {
       )}
 
       {/* MODALE QUICK ADD */}
-      <QuickAddManager
-        isOpen={isQuickAddOpen}
-        product={selectedProduct}
-        onClose={handleCloseQuickAdd}
+      <QuickAddModal
+        isOpen={isOpen}
+        product={product}
+        onClose={close}
       />
 
       {/* LOW SIGNAL PRINCIPI */}

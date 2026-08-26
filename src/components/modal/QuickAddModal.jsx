@@ -1,15 +1,44 @@
 import { useEffect, useState, useRef } from 'react'
 import { createPortal } from 'react-dom'
 
+import { useModal } from '@/hooks/useModal'
 import QuickAddContent from './QuickAddContent'
 
-export default function QuickAddSheet({ isOpen, product, onClose, onAddToCart }) {
-  const [selectedSize, setSelectedSize] = useState('')
+export default function QuickAddModal({ isOpen, product, onClose }) {
+  const [isDesktop, setIsDesktop] = useState(false)
+  const [selectedSize, setSelectedSize] = useState(null)
   const [dragY, setDragY] = useState(0)
 
   const startYRef = useRef(0)
   const isDraggingRef = useRef(false)
 
+  // Media query detection
+  useEffect(() => {
+    const mediaQuery = window.matchMedia('(min-width: 1024px)')
+    setIsDesktop(mediaQuery.matches)
+
+    const handler = (e) => setIsDesktop(e.matches)
+    mediaQuery.addEventListener('change', handler)
+    return () => mediaQuery.removeEventListener('change', handler)
+  }, [])
+
+  // Scroll lock + Escape key
+  useModal(isOpen, onClose)
+
+  // Auto-select first size on sheet open (mobile only)
+  useEffect(() => {
+    if (!isOpen || isDesktop || !product) return
+    const firstVariant = product.variants?.[0]
+    const initialSize = firstVariant?.size ?? ''
+    setSelectedSize(initialSize)
+  }, [isOpen, isDesktop, product])
+
+  // Reset size on close
+  useEffect(() => {
+    if (!isOpen) setSelectedSize(null)
+  }, [isOpen])
+
+  // Drag-to-dismiss handlers (sheet only)
   const handleTouchStart = (e) => {
     startYRef.current = e.touches[0].clientY
     isDraggingRef.current = true
@@ -21,7 +50,6 @@ export default function QuickAddSheet({ isOpen, product, onClose, onAddToCart })
     const currentY = e.touches[0].clientY
     const deltaY = currentY - startYRef.current
 
-    // Impedisce il trascinamento verso l'alto
     if (deltaY <= 0) {
       setDragY(0)
       return
@@ -33,7 +61,6 @@ export default function QuickAddSheet({ isOpen, product, onClose, onAddToCart })
   const handleTouchEnd = () => {
     isDraggingRef.current = false
 
-    // Se l'utente ha trascinato il foglio verso il basso per più di 200px, chiude la modale
     if (dragY > 200) {
       onClose()
       setDragY(0)
@@ -43,41 +70,39 @@ export default function QuickAddSheet({ isOpen, product, onClose, onAddToCart })
     setDragY(0)
   }
 
-  useEffect(() => {
-    if (!isOpen || !product) return
-
-    // Mappiamo correttamente la prima taglia dall'array variants del DB
-    const firstVariant = product.variants?.[0]
-    const initialSize = firstVariant?.size ?? ''
-    setSelectedSize(initialSize)
-
-    const previousOverflow = document.body.style.overflow
-    document.body.style.overflow = 'hidden'
-
-    const handleKeyDown = (event) => {
-      if (event.key === 'Escape') onClose()
-    }
-
-    window.addEventListener('keydown', handleKeyDown)
-
-    return () => {
-      document.body.style.overflow = previousOverflow
-      window.removeEventListener('keydown', handleKeyDown)
-    }
-  }, [isOpen, product, onClose])
-
   if (!isOpen || !product) return null
 
+  // Desktop: centered overlay
+  if (isDesktop) {
+    return createPortal(
+      <div className="fixed inset-0 z-1200 flex items-center justify-center">
+        <button
+          type="button"
+          className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+          onClick={onClose}
+        />
+        <div className="bg-card border-border relative z-10 w-full max-w-2xl rounded-2xl border p-8 shadow-2xl">
+          <QuickAddContent
+            product={product}
+            selectedSize={selectedSize}
+            setSelectedSize={setSelectedSize}
+            onClose={onClose}
+          />
+        </div>
+      </div>,
+      document.body
+    )
+  }
+
+  // Mobile: bottom sheet with drag-to-dismiss
   return createPortal(
     <div className="fixed inset-0 z-1200">
-      {/* OVERLAY SFONDO */}
       <button
         type="button"
         className="absolute inset-0 bg-black/60 backdrop-blur"
         onClick={onClose}
       />
 
-      {/* FOGLIO MODALE (SHEET) */}
       <section
         role="dialog"
         aria-modal="true"
@@ -89,7 +114,6 @@ export default function QuickAddSheet({ isOpen, product, onClose, onAddToCart })
           transition: isDraggingRef.current ? 'none' : 'transform 220ms ease',
         }}
       >
-        {/* DRAG HANDLE PER MOBILE */}
         <div
           className="mb-5 flex touch-none items-center justify-center py-2"
           onTouchStart={handleTouchStart}
@@ -99,13 +123,11 @@ export default function QuickAddSheet({ isOpen, product, onClose, onAddToCart })
           <div className="h-1.5 w-14 rounded-full bg-white/20" />
         </div>
 
-        {/* CONTENUTO INIETTATO */}
         <QuickAddContent
           product={product}
           selectedSize={selectedSize}
           setSelectedSize={setSelectedSize}
           onClose={onClose}
-          onAddToCart={onAddToCart}
           headerProps={{
             className: 'mb-5 flex touch-none items-start justify-between gap-4',
             onTouchStart: handleTouchStart,

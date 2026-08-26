@@ -1,13 +1,12 @@
-import { useCallback, useMemo, useState, useEffect } from 'react'
+import { useMemo, useEffect } from 'react'
 import { useProducts } from '@/hooks/useProducts'
+import { useQuickAdd } from '@/hooks/useQuickAdd'
 import ProductCard from './ProductCard'
-import QuickAddManager from './modal/QuickAddManager'
+import QuickAddModal from './modal/QuickAddModal'
 
 export default function HomeGrid({ onProductsLoaded }) {
   const { products, loading, error } = useProducts()
-
-  const [isQuickAddOpen, setIsQuickAddOpen] = useState(false)
-  const [selectedProduct, setSelectedProduct] = useState(null)
+  const { isOpen, product, open, close } = useQuickAdd()
 
   const gridProducts = useMemo(
     () => products.filter((product) => product.collectionId === 1),
@@ -19,16 +18,6 @@ export default function HomeGrid({ onProductsLoaded }) {
       onProductsLoaded(gridProducts)
     }
   }, [gridProducts, onProductsLoaded])
-
-  const openQuickAdd = useCallback((product) => {
-    setSelectedProduct(product)
-    setIsQuickAddOpen(true)
-  }, [])
-
-  const closeQuickAdd = useCallback(() => {
-    setIsQuickAddOpen(false)
-    setSelectedProduct(null)
-  }, [])
 
   // Stato visivo di caricamento
   if (loading) {
@@ -63,18 +52,13 @@ export default function HomeGrid({ onProductsLoaded }) {
             <ProductCard
               key={product.id}
               product={product}
-              onOpen={openQuickAdd}
+              onOpen={open}
             />
           )
         })}
       </div>
 
-      {/* Utilizziamo QuickAddManager per sdoppiare la modale Desktop / Mobile */}
-      <QuickAddManager
-        isOpen={isQuickAddOpen}
-        product={selectedProduct}
-        onClose={closeQuickAdd}
-      />
+      <QuickAddModal isOpen={isOpen} product={product} onClose={close} />
     </>
   )
 }
