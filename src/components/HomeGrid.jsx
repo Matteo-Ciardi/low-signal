@@ -1,45 +1,18 @@
 import { useCallback, useMemo, useState, useEffect } from 'react'
-
+import { useProducts } from '@/hooks/useProducts'
 import ProductCard from './ProductCard'
-// Sostituito l'import del vecchio foglio con il Manager unificato
 import QuickAddManager from './modal/QuickAddManager'
-import api from '@/services/api'
 
-export default function HomeGrid({ items, onProductsLoaded }) {
-  const [dbProducts, setDbProducts] = useState([])
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState(null)
+export default function HomeGrid({ onProductsLoaded }) {
+  const { products, loading, error } = useProducts()
 
   const [isQuickAddOpen, setIsQuickAddOpen] = useState(false)
   const [selectedProduct, setSelectedProduct] = useState(null)
 
-  useEffect(() => {
-    if (Array.isArray(items) && items.length > 0) {
-      setLoading(false)
-      return
-    }
-
-    const fetchProducts = async () => {
-      try {
-        setLoading(true)
-        const response = await api.get('/products')
-        setDbProducts(response.data)
-      } catch (err) {
-        console.error('Errore durante il caricamento dei prodotti:', err)
-        setError(err.response?.data?.message || err.message)
-      } finally {
-        setLoading(false)
-      }
-    }
-
-    fetchProducts()
-  }, [items])
-
-  // Filtriamo i prodotti per collectionId === 1
-  const gridProducts = useMemo(() => {
-    if (Array.isArray(items) && items.length > 0) return items
-    return dbProducts.filter((product) => product.collectionId === 1)
-  }, [items, dbProducts])
+  const gridProducts = useMemo(
+    () => products.filter((product) => product.collectionId === 1),
+    [products]
+  )
 
   useEffect(() => {
     if (onProductsLoaded && gridProducts.length > 0) {

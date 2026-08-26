@@ -61,14 +61,6 @@ export function AuthProvider({ children }) {
         const response = await api.get('/api/auth/me', {
           withCredentials: true,
         })
-        // 
-        
-
-
-
-
-
-        
         setUser({
           id: response.data.id,
           email: response.data.email,
