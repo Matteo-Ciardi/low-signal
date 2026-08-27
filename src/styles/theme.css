@@ -353,6 +353,7 @@
     font-weight: var(--font-weight-bold);
 
     transition: var(--transition-normal);
+    cursor:pointer
   }
 
   .btn-primary:hover {
@@ -376,6 +377,7 @@
     font-weight: var(--font-weight-medium);
 
     transition: var(--transition-normal);
+    cursor:pointer
   }
 
   .btn-secondary:hover {
