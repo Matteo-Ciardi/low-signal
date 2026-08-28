@@ -1,16 +1,21 @@
-import { AuthProvider, useAuth } from '@/context/AuthContext'
+import { useAuth } from '@/context/AuthContext'
+import { useAlert } from '@/context/AlertContext'
 import { useNavigate } from 'react-router-dom'
 
 export default function Dashboard() {
-  const { logout, user } = useAuth(AuthProvider)
+  const { logout, user } = useAuth()
+  const { showAlert } = useAlert()
   const navigate = useNavigate()
 
   const handleLogout = async () => {
-    await logout()
-    navigate('/')
+    try {
+      await logout()
+      navigate('/')
+    } catch (error) {
+      console.error('Errore durante il logout:', error)
+      showAlert(error.message || 'Errore durante il logout. Riprova.')
+    }
   }
-
-  if (!user) return <p>Caricamento..</p>
 
   return (
     <>
@@ -25,7 +30,9 @@ export default function Dashboard() {
 
         <div className="text-muted small mt-4">
           Benvenuto,
-          <p>{user.name} {user.surname}</p>
+          <p>
+            {user.name} {user.surname}
+          </p>
           <p>{user.email}</p>
         </div>
 

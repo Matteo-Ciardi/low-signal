@@ -2,12 +2,14 @@ import { useState, useRef } from 'react'
 import { NavLink, useNavigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { useAuth } from '@/context/AuthContext'
+import { useAlert } from '@/context/AlertContext'
 import api from '@/services/api'
 
 import { Eye, EyeOff } from 'lucide-react'
 
 export default function Signup() {
   const { signup } = useAuth()
+  const { showAlert } = useAlert()
   const navigate = useNavigate()
   const passwordRef = useRef(null)
   const [showPassword, setShowPassword] = useState(false)
@@ -58,15 +60,11 @@ export default function Signup() {
         }
       }
 
-      alert(
-        'Registrazione completata con successo! Effettua il login per accedere.'
-      )
-
       // Sposta l'utente alla schermata di Login
       navigate('/login', { state: { from: { pathname: '/' } }, replace: true })
     } catch (error) {
       console.error('Errore durante la registrazione:', error)
-      alert(error.message)
+      showAlert(error.message || 'Errore durante la registrazione.')
     }
   }
 

@@ -6,10 +6,12 @@ import Marquee from '@/components/Marquee'
 import HomeGrid from '@/components/HomeGrid'
 import QuickAddModal from '@/components/modal/QuickAddModal'
 import { useQuickAdd } from '@/hooks/useQuickAdd'
+import { useAlert } from '@/context/AlertContext'
 import api from '@/services/api'
 
 export default function Homepage() {
   const { isOpen, product, open, close } = useQuickAdd()
+  const { showAlert } = useAlert()
   const [featuredProduct, setFeaturedProduct] = useState(null)
   const [loading, setLoading] = useState(true)
 
@@ -27,10 +29,10 @@ export default function Homepage() {
     try {
       await api.post('/newsletter', { email: data.email })
       reset()
-      alert('Iscrizione alla newsletter completata')
+      showAlert('Iscrizione alla newsletter completata!', 'success')
     } catch (error) {
       console.error("Errore durante l'iscrizione:", error)
-      alert("Errore durante l'iscrizione.Riprova")
+      showAlert("Errore durante l'iscrizione. Riprova.")
     }
   }
 
@@ -187,11 +189,7 @@ export default function Homepage() {
       )}
 
       {/* MODALE QUICK ADD */}
-      <QuickAddModal
-        isOpen={isOpen}
-        product={product}
-        onClose={close}
-      />
+      <QuickAddModal isOpen={isOpen} product={product} onClose={close} />
 
       {/* LOW SIGNAL PRINCIPI */}
       <section className="mobile-menu-border section-spacing">

@@ -49,11 +49,7 @@ export default function HomeGrid({ onProductsLoaded }) {
       <div className="product-grid">
         {gridProducts.map((product) => {
           return (
-            <ProductCard
-              key={product.id}
-              product={product}
-              onOpen={open}
-            />
+            <ProductCard key={product.id} product={product} onOpen={open} />
           )
         })}
       </div>

@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, useEffect } from 'react'
-import api from '@/services/api'
+import api, { setToken } from '@/services/api'
 
 const AuthContext = createContext(null)
 
@@ -26,13 +26,13 @@ export function AuthProvider({ children }) {
         withCredentials: true,
       })
       const result = response.data
-      // console.log('Risposta:', response.data)
+      setToken(result.accessToken)
       setUser({
         id: result.id,
         email: result.email,
         roles: result.roles,
-        name: response.name,
-        surname: response.surname,
+        name: result.name,
+        surname: result.surname,
       })
 
       return result
@@ -46,13 +46,17 @@ export function AuthProvider({ children }) {
   }
 
   const logout = async () => {
+    let logoutError = null
     try {
       await api.post('/api/auth/logout', {}, { withCredentials: true })
     } catch (err) {
       console.error('Errore durante il logout sul server', err)
+      logoutError = err
     } finally {
+      setToken(null)
       setUser(null)
     }
+    if (logoutError) throw logoutError
   }
 
   useEffect(() => {
@@ -61,6 +65,7 @@ export function AuthProvider({ children }) {
         const response = await api.get('/api/auth/me', {
           withCredentials: true,
         })
+        setToken(response.data.accessToken)
         setUser({
           id: response.data.id,
           email: response.data.email,
@@ -69,7 +74,7 @@ export function AuthProvider({ children }) {
           surname: response.data.surname,
         })
       } catch (error) {
-        // Utente non autenticato o errore — non bloccare il loading
+        setToken(null)
       } finally {
         setLoading(false)
       }

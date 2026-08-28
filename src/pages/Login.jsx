@@ -2,11 +2,13 @@ import { useState } from 'react'
 import { NavLink, useNavigate, useLocation } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { useAuth } from '@/context/AuthContext'
+import { useAlert } from '@/context/AlertContext'
 
 import { Eye, EyeOff } from 'lucide-react'
 
 export default function Login() {
   const { login } = useAuth()
+  const { showAlert } = useAlert()
   const navigate = useNavigate()
   const location = useLocation()
   const [showPassword, setShowPassword] = useState(false)
@@ -31,7 +33,7 @@ export default function Login() {
       navigate(from, { replace: true })
     } catch (error) {
       console.error('Errore durante il login:', error)
-      alert(error.message)
+      showAlert(error.message || 'Errore durante il login.')
     }
   }
 
