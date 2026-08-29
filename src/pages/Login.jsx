@@ -19,7 +19,7 @@ export default function Login() {
     formState: { errors, isSubmitting },
   } = useForm()
 
-  const from = location.state?.from?.pathname || '/'
+  const to = '/dashboard'
 
   const onSubmit = async (data) => {
     try {
@@ -27,10 +27,9 @@ export default function Login() {
         email: data.email,
         password: data.password,
       })
-
       // Reindirizza alla pagina da cui proveniva l'utente
       // replace: true evita di rimandarlo al login se clicca "Indietro" sul browser
-      navigate(from, { replace: true })
+      navigate(to, { replace: true })
     } catch (error) {
       console.error('Errore durante il login:', error)
       showAlert(error.message || 'Errore durante il login.')
