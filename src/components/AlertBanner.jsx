@@ -1,17 +1,8 @@
-import { useEffect } from 'react'
 import { X } from 'lucide-react'
 import { useAlert } from '@/context/AlertContext'
 
 export default function AlertBanner() {
   const { alert, hideAlert } = useAlert()
-
-  useEffect(() => {
-    if (!alert) return
-    const timer = setTimeout(() => {
-      hideAlert()
-    }, 5000)
-    return () => clearTimeout(timer)
-  }, [alert, hideAlert])
 
   if (!alert) return null
 
@@ -22,7 +13,7 @@ export default function AlertBanner() {
 
   return (
     <div
-      className={`surface-card fixed top-4 left-1/2 z-9999 -translate-x-1/2 border ${colors} flex max-w-md items-center gap-3 rounded-lg px-4 py-3 shadow-lg`}
+      className={`fixed top-4 left-1/2 z-[9999] -translate-x-1/2 surface-card border ${colors} rounded-lg px-4 py-3 shadow-lg flex items-center gap-3 max-w-md`}
     >
       <p className="text-sm">{alert.message}</p>
       <button onClick={hideAlert} className="ml-auto shrink-0">

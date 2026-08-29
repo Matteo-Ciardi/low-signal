@@ -1,16 +1,36 @@
-import { createContext, useContext, useState, useCallback } from 'react'
+import { createContext, useContext, useState, useCallback, useRef, useEffect } from 'react'
 
 const AlertContext = createContext(null)
 
 export function AlertProvider({ children }) {
   const [alert, setAlert] = useState(null)
-
-  const showAlert = useCallback((message, type = 'error') => {
-    setAlert({ message, type })
-  }, [])
+  const timerRef = useRef(null)
 
   const hideAlert = useCallback(() => {
+    if (timerRef.current) {
+      clearTimeout(timerRef.current)
+      timerRef.current = null
+    }
     setAlert(null)
+  }, [])
+
+  const showAlert = useCallback((message, type = 'error') => {
+    if (timerRef.current) {
+      clearTimeout(timerRef.current)
+    }
+    setAlert({ message, type })
+    timerRef.current = setTimeout(() => {
+      setAlert(null)
+      timerRef.current = null
+    }, 5000)
+  }, [])
+
+  useEffect(() => {
+    return () => {
+      if (timerRef.current) {
+        clearTimeout(timerRef.current)
+      }
+    }
   }, [])
 
   return (
