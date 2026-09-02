@@ -23,9 +23,18 @@ export const setToken = (token) => {
   accessToken = token
 }
 
+const getXsrfToken = () => {
+  const match = document.cookie.match(new RegExp('(^| )XSRF-TOKEN=([^;]+)'))
+  return match ? match[2] : null
+}
+
 api.interceptors.request.use((config) => {
   if (accessToken) {
     config.headers.Authorization = `Bearer ${accessToken}`
+  }
+  const xsrfToken = getXsrfToken()
+  if (xsrfToken) {
+    config.headers['X-XSRF-TOKEN'] = xsrfToken
   }
   return config
 })
