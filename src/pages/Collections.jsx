@@ -17,9 +17,6 @@ export default function Collections() {
       <section className="container-editorial mt-13 pt-14">
         <div className="">
           <h1>COLLECTIONS</h1>
-          <p className="text-label text-primary mt-4 font-mono">
-            {selectedCollection?.name}
-          </p>
         </div>
 
         <div className="mt-9 mb-5 flex">
@@ -46,6 +43,7 @@ export default function Collections() {
             alt={selectedCollection?.name}
             className="h-full w-full scale-150 object-cover"
           />
+          
         </div>
 
         <div className="from-background via-background/40 to-background absolute inset-0 bg-linear-to-t" />

@@ -343,6 +343,8 @@
 
     padding-inline: var(--space-6);
 
+    border: 1px solid transparent;
+
     background: var(--color-primary);
     color: var(--color-primary-foreground);
 
@@ -370,7 +372,8 @@
     padding-inline: var(--space-6);
 
     border: 1px solid var(--color-border);
-
+    
+    font-family: var(--font-mono);
     text-transform: uppercase;
     letter-spacing: var(--tracking-wide);
     font-size: var(--text-xs);
