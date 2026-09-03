@@ -43,10 +43,17 @@ export default function Collections() {
             alt={selectedCollection?.name}
             className="h-full w-full scale-150 object-cover"
           />
-          
+        </div>
+        <div className="absolute bottom-5 z-10 pr-6 pl-6">
+          <h2 className="mb-4">{selectedCollection?.name}</h2>
+          <p className="pb-6">{selectedCollection?.description}</p>
+          <div className="flex flex-col">
+            <span className="text-mono tracking-wider">PIECES:</span>
+            <span className='text-display text-primary text-xl'>10</span>
+          </div>
         </div>
 
-        <div className="from-background via-background/40 to-background absolute inset-0 bg-linear-to-t" />
+        <div className="from-background via-background/60 to-background absolute inset-0 bg-linear-to-t" />
       </section>
 
       <section className="product-grid container-editorial section-spacing">
