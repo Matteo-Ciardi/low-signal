@@ -2,6 +2,13 @@ import axios from 'axios'
 
 const apiUrl = import.meta.env.VITE_API_URL
 
+if (import.meta.env.PROD && apiUrl && !apiUrl.startsWith('https://')) {
+  throw new Error(
+    '[Security] VITE_API_URL must use HTTPS in production. ' +
+    `Received: "${apiUrl}"`
+  )
+}
+
 const api = axios.create({
   baseURL: apiUrl,
   withCredentials: true,
