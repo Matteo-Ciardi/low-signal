@@ -21,35 +21,35 @@ export default function Collections() {
 
         <div className="mt-9 mb-5 flex">
           {collections.map((collection) => (
-            <p
+            <button
               key={collection.id}
               onClick={() => setSelectedCollectionId(collection.id)}
-              className={`${
+              className={`text-[9px]! text-left py-2 ${
                 selectedCollection?.id === collection.id
                   ? 'btn-primary'
                   : 'btn-secondary'
               }`}
             >
               {collection.name}
-            </p>
+            </button>
           ))}
         </div>
       </section>
 
       <section className="relative">
-        <div className="h-160 overflow-hidden">
+        <div className="h-147 overflow-hidden">
           <img
             src={selectedCollection?.heroImage}
             alt={selectedCollection?.name}
             className="h-full w-full scale-150 object-cover"
           />
         </div>
-        <div className="absolute bottom-5 z-10 pr-6 pl-6">
-          <h2 className="mb-4">{selectedCollection?.name}</h2>
+        <div className="absolute bottom-10 z-10 pl-6">
+          <h2 className="text-[46px] mb-4">{selectedCollection?.name}</h2>
           <p className="pb-6">{selectedCollection?.description}</p>
           <div className="flex flex-col">
             <span className="text-mono tracking-wider">PIECES:</span>
-            <span className='text-display text-primary text-xl'>10</span>
+            <span className='text-display text-primary text-xl'>{selectedCollection?.products?.length}</span>
           </div>
         </div>
 
