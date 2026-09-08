@@ -24,7 +24,7 @@ export default function Collections() {
             <button
               key={collection.id}
               onClick={() => setSelectedCollectionId(collection.id)}
-              className={`text-[9px]! text-left py-2 ${
+              className={`px-4! text-left text-[11px]! ${
                 selectedCollection?.id === collection.id
                   ? 'btn-primary'
                   : 'btn-secondary'
@@ -36,36 +36,40 @@ export default function Collections() {
         </div>
       </section>
 
-      <section className="relative">
-        <div className="h-147 overflow-hidden">
-          <img
-            src={selectedCollection?.heroImage}
-            alt={selectedCollection?.name}
-            className="h-full w-full scale-150 object-cover"
-          />
-        </div>
-        <div className="absolute bottom-10 z-10 pl-6">
-          <h2 className="text-[46px] mb-4">{selectedCollection?.name}</h2>
-          <p className="pb-6">{selectedCollection?.description}</p>
-          <div className="flex flex-col">
-            <span className="text-mono tracking-wider">PIECES:</span>
-            <span className='text-display text-primary text-xl'>{selectedCollection?.products?.length}</span>
+      {!loading && !error && selectedCollection && (
+        <section className="relative">
+          <div className="h-147 overflow-hidden">
+            <img
+              src={selectedCollection?.heroImage}
+              alt={selectedCollection?.name}
+              className="h-full w-full scale-150 object-cover"
+            />
           </div>
-        </div>
+          <div className="absolute bottom-10 z-10 pl-6">
+            <h2 className="mb-4 text-[46px]">{selectedCollection?.name}</h2>
+            <p className="pb-6">{selectedCollection?.description}</p>
+            <div className="flex flex-col">
+              <span className="text-mono tracking-wider">PIECES:</span>
+              <span className="text-display text-primary text-xl">
+                {selectedCollection?.products?.length}
+              </span>
+            </div>
+          </div>
 
-        <div className="from-background via-background/60 to-background absolute inset-0 bg-linear-to-t" />
-      </section>
+          <div className="from-background via-background/60 to-background absolute inset-0 bg-linear-to-t" />
+        </section>
+      )}
 
       <section className="product-grid container-editorial section-spacing">
         {loading && (
-          <div className="flex h-40 items-center justify-center">
+          <div className="col-span-full flex h-40 items-center justify-center">
             <p className="text-primary animate-pulse font-mono text-xs tracking-widest">
               LOADING COLLECTIONS...
             </p>
           </div>
         )}
         {error && (
-          <div className="flex h-40 flex-col items-center justify-center text-center">
+          <div className="col-span-full flex h-40 flex-col items-center justify-center text-center">
             <p className="mb-2 font-mono text-xs tracking-widest text-red-500">
               OFFLINE SIGNAL
             </p>
