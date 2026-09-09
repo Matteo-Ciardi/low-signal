@@ -56,7 +56,7 @@ export default function Collections() {
             </div>
             <div className="absolute bottom-10 z-10 pl-6 lg:bottom-10 lg:w-150 lg:pl-15">
               <span
-                className={`text-label inline-flex px-3 py-2 font-bold mb-5 ${
+                className={`text-label mb-5 inline-flex px-3 py-2 font-bold ${
                   statusClasses[selectedCollection?.collectionStatus] ??
                   'bg-card text-foreground'
                 }`}
@@ -80,7 +80,7 @@ export default function Collections() {
         )}
       </div>
 
-      <section className="product-grid container-editorial section-spacing">
+      <section className="collections-grid container-editorial section-spacing">
         {loading && (
           <div className="col-span-full flex h-40 items-center justify-center">
             <p className="text-primary animate-pulse font-mono text-xs tracking-widest">
@@ -100,9 +100,56 @@ export default function Collections() {
         )}
         {!loading &&
           !error &&
-          selectedCollection?.products.map((product) => (
-            <ProductCard key={product.id} product={product} onOpen={open} />
-          ))}
+          selectedCollection?.products.map((product, index) => {
+            // 1. Card 0: 2/3 a sinistra (alta 2 righe e 100% altezza)
+            if (index === 0) {
+              return (
+                <div key={product.id} className="col-span-large">
+                  <ProductCard
+                    product={product}
+                    onOpen={open}
+                    className="h-full"
+                  />
+                </div>
+              )
+            }
+
+            // 2. Card 1 e 3: incolonnate a destra (1/3)
+            if (index === 1 || index === 3) {
+              return (
+                <div key={product.id} className="col-span-small">
+                  <ProductCard product={product} onOpen={open} />
+                </div>
+              )
+            }
+
+            // 3. Card 2 e 4: si uniscono nella riga sotto e si dividono 50% / 50%
+            if (index === 2) {
+              const nextProduct = selectedCollection?.products[4]
+              return (
+                <div key="row-50-50" className="col-row-split-50">
+                  <div>
+                    <ProductCard product={product} onOpen={open} />
+                  </div>
+                  {nextProduct && (
+                    <div>
+                      <ProductCard product={nextProduct} onOpen={open} />
+                    </div>
+                  )}
+                </div>
+              )
+            }
+
+            // Saltiamo l'indice 4 (già dentro il blocco dell'indice 2)
+            if (index === 4) return null
+
+            // Card successive
+            return (
+              <div key={product.id} className="col-span-small">
+                <ProductCard product={product} onOpen={open} />
+              </div>
+            )
+          })}
       </section>
 
       <QuickAddModal isOpen={isOpen} product={product} onClose={close} />

@@ -372,7 +372,7 @@
     padding-inline: var(--space-6);
 
     border: 1px solid var(--color-border);
-    
+
     font-family: var(--font-mono);
     text-transform: uppercase;
     letter-spacing: var(--tracking-wide);
@@ -421,8 +421,19 @@
     gap: var(--space-8);
   }
 
+  .collections-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-8);
+    grid-auto-flow: dense;
+  }
+
   @media (min-width: 768px) {
     .product-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .collections-grid {
       grid-template-columns: repeat(2, 1fr);
     }
   }
@@ -430,6 +441,38 @@
   @media (min-width: 1280px) {
     .product-grid {
       grid-template-columns: repeat(3, 1fr);
+    }
+
+    .collections-grid {
+      grid-template-columns: 2fr 1fr;
+    }
+
+    /* Utilità da applicare alle card nel JSX */
+    .col-span-large {
+      grid-column: 1; /* Forzato nella colonna da 2/3 */
+      grid-row: span 2;
+      align-self: stretch;
+    }
+
+    .col-span-small {
+      grid-column: 2; /* Forzato nella colonna da 1/3 */
+    }
+
+    .col-span-large .product-card {
+      height: 100%;
+    }
+
+    .col-span-large .product-card-image {
+      flex: 1;
+      aspect-ratio: unset;
+    }
+
+    /* RIGA DIVISA ESATTAMENTE 50% / 50% */
+    .col-row-split-50 {
+      grid-column: 1 / -1; /* Prende tutta la larghezza da sinistra a destra */
+      display: grid;
+      grid-template-columns: 1fr 1fr; /* Divide la riga in 2 parti uguali (50% e 50%) */
+      gap: var(--space-8); /* Mantiene lo stesso gap della griglia madre */
     }
   }
 
