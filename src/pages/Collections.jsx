@@ -54,7 +54,7 @@ export default function Collections() {
                 className="h-full w-full scale-150 object-cover lg:scale-100"
               />
             </div>
-            <div className="absolute bottom-10 z-10 pl-6 lg:bottom-20 lg:w-150 lg:pl-15">
+            <div className="absolute bottom-10 z-10 pl-6 lg:bottom-10 lg:w-150 lg:pl-15">
               <span
                 className={`text-label inline-flex px-3 py-2 font-bold mb-5 ${
                   statusClasses[selectedCollection?.collectionStatus] ??
