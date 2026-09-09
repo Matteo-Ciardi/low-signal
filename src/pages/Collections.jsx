@@ -115,7 +115,7 @@ export default function Collections() {
             }
 
             // 2. Card 1 e 3: incolonnate a destra (1/3)
-            if (index === 1 || index === 3) {
+            if (index === 1 || index === 2) {
               return (
                 <div key={product.id} className="col-span-small">
                   <ProductCard product={product} onOpen={open} />
@@ -124,7 +124,7 @@ export default function Collections() {
             }
 
             // 3. Card 2 e 4: si uniscono nella riga sotto e si dividono 50% / 50%
-            if (index === 2) {
+            if (index === 3) {
               const nextProduct = selectedCollection?.products[4]
               return (
                 <div key="row-50-50" className="col-row-split-50">
