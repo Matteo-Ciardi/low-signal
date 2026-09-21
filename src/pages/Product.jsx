@@ -1,7 +1,174 @@
+import { useMemo, useState } from 'react'
+import { useParams, Link } from 'react-router-dom'
+import { ArrowRight, Loader2 } from 'lucide-react'
+
+import { useProduct } from '@/hooks/useProduct'
+import { useProducts } from '@/hooks/useProducts'
+
+import ProductImageCarousel from '@/components/product/ProductImageCarousel'
+import SizeSelector from '@/components/product/SizeSelector'
+import TrustBadges from '@/components/product/TrustBadges'
+import ProductAccordion from '@/components/product/ProductAccordion'
+import RelatedProducts from '@/components/product/RelatedProducts'
+
 export default function Product() {
+  const { slug } = useParams()
+  const { product, loading, error } = useProduct(slug)
+  const { products: allProducts } = useProducts()
+
+  const [selectedSize, setSelectedSize] = useState(null)
+  const [addedToCart, setAddedToCart] = useState(false)
+
+  const relatedProducts = useMemo(() => {
+    if (!product || !allProducts.length) return []
+    return allProducts
+      .filter(
+        (p) => p.collectionId === product.collectionId && p.id !== product.id
+      )
+      .slice(0, 4)
+  }, [product, allProducts])
+
+  const handleAddToCart = () => {
+    if (!selectedSize) return
+    setAddedToCart(true)
+    setTimeout(() => setAddedToCart(false), 2000)
+  }
+
+  if (loading) {
+    return (
+      <div className="flex min-h-[60vh] items-center justify-center">
+        <Loader2 className="text-muted animate-spin" size={24} />
+      </div>
+    )
+  }
+
+  if (error) {
+    return (
+      <div className="flex min-h-[60vh] flex-col items-center justify-center gap-4">
+        <p className="font-mono text-sm text-red-500">OFFLINE SIGNAL</p>
+        <p className="text-muted text-sm">{error}</p>
+        <Link to="/" className="btn-secondary mt-4">
+          BACK TO HOME
+        </Link>
+      </div>
+    )
+  }
+
+  if (!product) {
+    return (
+      <div className="flex min-h-[60vh] flex-col items-center justify-center gap-4">
+        <p className="font-mono text-sm text-red-500">PRODUCT NOT FOUND</p>
+        <Link to="/" className="btn-secondary mt-4">
+          BACK TO HOME
+        </Link>
+      </div>
+    )
+  }
+
   return (
-    <>
-      <h1>PAGINA DEL PRODOTTO</h1>
-    </>
+    <section className="py-6">
+      <div className="container-editorial">
+        {/* BREADCRUMB */}
+        <nav className="mb-4 flex items-center gap-2 text-sm">
+          <Link to="/" className="text-muted transition-colors hover:text-foreground">
+            HOME
+          </Link>
+          <span className="text-muted">/</span>
+          <Link
+            to="/collections"
+            className="text-muted transition-colors hover:text-foreground"
+          >
+            COLLECTIONS
+          </Link>
+          <span className="text-muted">/</span>
+          <span className="text-muted">{product.collectionName}</span>
+          <span className="text-muted">/</span>
+          <span className="text-foreground">{product.name}</span>
+        </nav>
+
+        {/* CAROUSELLA IMMAGINI */}
+        <ProductImageCarousel
+          images={product.images}
+          tag={product.tag}
+          name={product.name}
+        />
+
+        {/* CATEGORIA */}
+        <p className="text-label text-muted mb-2 font-mono text-xs uppercase">
+          {product.collectionName}
+        </p>
+
+        {/* TITOLO */}
+        <h2 className="text-foreground mb-4 font-display text-3xl uppercase leading-tight">
+          {product.name}
+        </h2>
+
+        {/* PREZZO */}
+        <div className="mb-6 flex items-baseline gap-3">
+          <span className="text-foreground font-mono text-2xl font-bold">
+            ${product.price}
+          </span>
+          <span className="text-muted font-mono text-sm">USD</span>
+        </div>
+
+        {/* DESCRIZIONE */}
+        {product.description && (
+          <p className="text-muted-foreground mb-8 max-w-md text-sm leading-relaxed">
+            {product.description}
+          </p>
+        )}
+
+        {/* SELEZIONE TAGLIE */}
+        <SizeSelector
+          variants={product.variants}
+          selectedSize={selectedSize}
+          onSelectSize={setSelectedSize}
+        />
+
+        {/* AGGIUNGI AL CARRELLO */}
+        <button
+          type="button"
+          className="btn-primary mt-4 w-full"
+          disabled={!selectedSize}
+          onClick={handleAddToCart}
+        >
+          {addedToCart
+            ? 'ADDED'
+            : `ADD TO CART — $${product.price}`}
+        </button>
+
+        {/* BUY NOW */}
+        <div className="mt-4 text-center">
+          <button
+            type="button"
+            className="text-muted inline-flex items-center gap-2 font-mono text-xs uppercase transition-colors hover:text-foreground"
+          >
+            BUY NOW
+            <ArrowRight size={14} />
+          </button>
+        </div>
+
+        {/* TRUST BADGES */}
+        <TrustBadges />
+
+        {/* ACCORDION DETTAGLI */}
+        <ProductAccordion />
+      </div>
+
+      {/* BANNER FULL-WIDTH */}
+      <div className="bg-card relative my-8 flex h-64 w-full items-end overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
+        <div className="relative z-10 p-6">
+          <h3 className="font-display text-4xl uppercase leading-none tracking-tight">
+            {product.collectionName}
+          </h3>
+        </div>
+      </div>
+
+      {/* PRODOTTI CORRELATI */}
+      <div className="container-editorial">
+        <RelatedProducts products={relatedProducts} />
+      </div>
+    </section>
   )
 }
