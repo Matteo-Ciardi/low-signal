@@ -32,7 +32,7 @@ export default function App() {
                 <Route path="/collections" element={<Collections />} />
                 <Route path="/lookbook" element={<Lookbook />} />
                 <Route path="/about" element={<About />} />
-                <Route path="/product" element={<Product />} />
+                <Route path="/product/:slug" element={<Product />} />
                 <Route element={<ProtectedRoute />}>
                   <Route path="/dashboard" element={<Dashboard />} />
                 </Route>
