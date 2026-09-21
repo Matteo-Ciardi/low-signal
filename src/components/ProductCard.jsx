@@ -2,7 +2,7 @@ const tagClasses = {
   RESTOCKED: 'bg-background text-foreground',
   'NEW DROP': 'bg-primary text-background',
   LIMITED: 'bg-foreground text-background',
-  'SOLD OUT': 'bg-white/10 text-foreground',
+  'SOLD OUT': 'bg-secondary text-foreground',
 }
 
 export default function ProductCard({ product, onOpen }) {
