@@ -36,13 +36,41 @@ export default function ProductImageCarousel({ images = [], tag, name }) {
           className="h-full w-full object-cover"
         />
 
-        <span className="text-mono text-muted absolute right-4 bottom-4 text-xs">
+        {/* Contatore mobile */}
+        <span className="text-mono text-muted absolute right-4 bottom-4 text-xs lg:hidden">
           {String(currentIndex + 1).padStart(2, '0')} /{' '}
           {String(images.length).padStart(2, '0')}
         </span>
+
+        {/* Contatore desktop */}
+        <span className="text-mono text-foreground bg-background/80 absolute bottom-4 left-4 hidden px-2 py-1 text-xs lg:block">
+          {String(currentIndex + 1).padStart(2, '0')} /{' '}
+          {String(images.length).padStart(2, '0')}
+        </span>
+
+        {/* Frecce desktop (sopra l'immagine, basso a destra) */}
+        <div className="absolute right-4 bottom-4 hidden gap-2 lg:flex">
+          <button
+            type="button"
+            onClick={() => goTo(currentIndex - 1)}
+            className="border-border bg-background/80 text-foreground flex h-9 w-9 items-center justify-center border transition-colors hover:bg-background"
+            aria-label="Previous image"
+          >
+            <ChevronLeft size={18} />
+          </button>
+          <button
+            type="button"
+            onClick={() => goTo(currentIndex + 1)}
+            className="border-border bg-background/80 text-foreground flex h-9 w-9 items-center justify-center border transition-colors hover:bg-background"
+            aria-label="Next image"
+          >
+            <ChevronRight size={18} />
+          </button>
+        </div>
       </div>
 
-      <div className="mt-2 flex items-center justify-between px-1">
+      {/* Controlli mobile */}
+      <div className="mt-2 flex items-center justify-between px-1 lg:hidden">
         <button
           type="button"
           onClick={() => goTo(currentIndex - 1)}
@@ -81,6 +109,28 @@ export default function ProductImageCarousel({ images = [], tag, name }) {
         >
           <ChevronRight size={20} />
         </button>
+      </div>
+
+      {/* Strip thumbnail desktop */}
+      <div className="mt-2 hidden grid-cols-4 gap-2 lg:grid">
+        {images.map((img, i) => (
+          <button
+            key={img.id || i}
+            type="button"
+            onClick={() => setCurrentIndex(i)}
+            className={`aspect-[4/3] overflow-hidden transition-all ${
+              i === currentIndex
+                ? 'border-b-2 border-primary opacity-100'
+                : 'border-b-2 border-transparent opacity-50 hover:opacity-75'
+            }`}
+          >
+            <img
+              src={img.imageUrl}
+              alt={`${name} view ${i + 1}`}
+              className="h-full w-full object-cover"
+            />
+          </button>
+        ))}
       </div>
     </div>
   )

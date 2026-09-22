@@ -65,6 +65,10 @@ export default function Product() {
     )
   }
 
+  const bannerImage =
+    product.images?.find((img) => img.isPrimary)?.imageUrl ||
+    product.images?.[0]?.imageUrl
+
   return (
     <section className="py-6">
       <div className="container-editorial">
@@ -85,81 +89,109 @@ export default function Product() {
           <span className="text-muted">/</span>
           <span className="text-foreground">{product.name}</span>
         </nav>
+      </div>
 
-        {/* CAROUSELLA IMMAGINI */}
-        <ProductImageCarousel
-          images={product.images}
-          tag={product.tag}
-          name={product.name}
-        />
-
-        {/* CATEGORIA */}
-        <p className="text-label text-muted mb-2 font-mono text-xs uppercase">
-          {product.collectionName}
-        </p>
-
-        {/* TITOLO */}
-        <h2 className="text-foreground mb-4 font-display text-3xl uppercase leading-tight">
-          {product.name}
-        </h2>
-
-        {/* PREZZO */}
-        <div className="mb-6 flex items-baseline gap-3">
-          <span className="text-foreground font-mono text-2xl font-bold">
-            ${product.price}
-          </span>
-          <span className="text-muted font-mono text-sm">USD</span>
+      {/* GRIGLIA PRODOTTO DESKTOP */}
+      <div className="lg:grid lg:grid-cols-2">
+        {/* COLONNA IMMAGINI */}
+        <div className="px-6 lg:border-r lg:border-border lg:px-0">
+          <ProductImageCarousel
+            images={product.images}
+            tag={product.tag}
+            name={product.name}
+          />
         </div>
 
-        {/* DESCRIZIONE */}
-        {product.description && (
-          <p className="text-muted-foreground mb-8 max-w-md text-sm leading-relaxed">
-            {product.description}
+        {/* COLONNA INFORMAZIONI */}
+        <div className="px-6 lg:px-12 lg:pt-10">
+          {/* CATEGORIA */}
+          <p className="text-label text-muted mb-2 font-mono text-xs uppercase lg:text-primary">
+            {product.collectionName}
           </p>
-        )}
 
-        {/* SELEZIONE TAGLIE */}
-        <SizeSelector
-          variants={product.variants}
-          selectedSize={selectedSize}
-          onSelectSize={setSelectedSize}
-        />
+          {/* TITOLO */}
+          <h2 className="text-foreground mb-4 font-display text-3xl uppercase leading-tight lg:text-7xl">
+            {product.name}
+          </h2>
 
-        {/* AGGIUNGI AL CARRELLO */}
-        <button
-          type="button"
-          className="btn-primary mt-4 w-full"
-          disabled={!selectedSize}
-          onClick={handleAddToCart}
-        >
-          {addedToCart
-            ? 'ADDED'
-            : `ADD TO CART — $${product.price}`}
-        </button>
+          {/* PREZZO */}
+          <div className="mb-6 flex items-baseline gap-3">
+            <span className="text-foreground font-mono text-2xl font-bold">
+              ${product.price}
+            </span>
+            <span className="text-muted font-mono text-sm">USD</span>
+          </div>
 
-        {/* BUY NOW */}
-        <div className="mt-4 text-center">
+          {/* DESCRIZIONE */}
+          {product.description && (
+            <p className="text-muted-foreground mb-8 max-w-md text-sm leading-relaxed lg:border-border lg:mb-0 lg:border-b lg:pb-8">
+              {product.description}
+            </p>
+          )}
+
+          {/* SELEZIONE TAGLIE */}
+          <div className={product.description ? 'lg:pt-8' : ''}>
+            <SizeSelector
+              variants={product.variants}
+              selectedSize={selectedSize}
+              onSelectSize={setSelectedSize}
+            />
+          </div>
+
+          {/* AGGIUNGI AL CARRELLO */}
           <button
             type="button"
-            className="text-muted inline-flex items-center gap-2 font-mono text-xs uppercase transition-colors hover:text-foreground"
+            className="btn-primary mt-4 w-full"
+            disabled={!selectedSize}
+            onClick={handleAddToCart}
           >
-            BUY NOW
-            <ArrowRight size={14} />
+            {addedToCart
+              ? 'ADDED'
+              : `ADD TO CART — $${product.price}`}
+            <ArrowRight size={16} className="ml-2 hidden lg:block" />
           </button>
+
+          {/* BUY NOW */}
+          <div className="mt-4 text-center lg:text-left">
+            {/* Mobile: link testuale */}
+            <button
+              type="button"
+              className="text-muted inline-flex items-center gap-2 font-mono text-xs uppercase transition-colors hover:text-foreground lg:hidden"
+            >
+              BUY NOW
+              <ArrowRight size={14} />
+            </button>
+            {/* Desktop: bottone pieno bordato */}
+            <button
+              type="button"
+              className="text-foreground border-border hidden h-12 w-full items-center justify-center gap-2 border font-mono text-xs font-bold uppercase tracking-wide transition-colors hover:bg-white/5 lg:inline-flex"
+            >
+              BUY NOW
+              <ArrowRight size={14} />
+            </button>
+          </div>
+
+          {/* TRUST BADGES */}
+          <TrustBadges />
+
+          {/* ACCORDION DETTAGLI */}
+          <ProductAccordion />
         </div>
-
-        {/* TRUST BADGES */}
-        <TrustBadges />
-
-        {/* ACCORDION DETTAGLI */}
-        <ProductAccordion />
       </div>
 
       {/* BANNER FULL-WIDTH */}
-      <div className="bg-card relative my-8 flex h-64 w-full items-end overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
-        <div className="relative z-10 p-6">
-          <h3 className="font-display text-4xl uppercase leading-none tracking-tight">
+      <div className="bg-card relative my-8 flex h-64 w-full items-end overflow-hidden lg:h-[220px] lg:items-center">
+        {bannerImage && (
+          <img
+            src={bannerImage}
+            alt={product.collectionName}
+            className="absolute inset-y-0 right-0 hidden w-[30%] object-cover lg:block"
+          />
+        )}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent lg:hidden" />
+        <div className="absolute inset-0 hidden bg-gradient-to-r from-card via-card/70 to-transparent lg:block" />
+        <div className="relative z-10 p-6 lg:px-10">
+          <h3 className="font-display text-4xl uppercase leading-none tracking-tight lg:text-[112px] lg:text-muted-foreground/40">
             {product.collectionName}
           </h3>
         </div>
