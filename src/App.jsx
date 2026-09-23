@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { AuthProvider } from './context/AuthContext'
 import { AlertProvider } from './context/AlertContext'
 import AlertBanner from '@/components/AlertBanner'
+import ScrollToTop from '@/components/ScrollToTop'
 
 import GlobalLayout from '@/layouts/GlobalLayout'
 import Homepage from '@/pages/Homepage'
@@ -22,6 +23,7 @@ export default function App() {
       <AuthProvider>
         <AlertProvider>
           <BrowserRouter>
+            <ScrollToTop />
             <Routes>
               <Route element={<AuthLayout />}>
                 <Route path="/signup" element={<Signup />} />

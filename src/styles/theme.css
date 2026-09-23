@@ -159,10 +159,6 @@
     box-sizing: border-box;
   }
 
-  html {
-    scroll-behavior: smooth;
-  }
-
   body {
     @apply bg-background text-muted-foreground;
     font-family: var(--font-body);
