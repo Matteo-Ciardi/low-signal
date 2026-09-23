@@ -34,15 +34,6 @@ function ProductCard({ product }) {
             className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
           />
         )}
-
-        <div className="absolute inset-x-0 bottom-0 flex">
-          <span className="text-mono bg-card border-border flex-1 border-t py-2.5 text-center text-xs font-bold uppercase">
-            Details
-          </span>
-          <span className="bg-primary text-background flex-1 border-t py-2.5 text-center text-xs font-bold uppercase">
-            Quick Add
-          </span>
-        </div>
       </div>
 
       <div className="mt-3">
@@ -51,7 +42,7 @@ function ProductCard({ product }) {
             {product.name}
           </p>
           <span className="text-mono text-foreground shrink-0 text-sm">
-            ${product.price}
+            € {product.price?.toFixed(2)}
           </span>
         </div>
         <p className="text-muted text-xs uppercase">

@@ -70,27 +70,7 @@ export default function Product() {
     product.images?.[0]?.imageUrl
 
   return (
-    <section className="py-6">
-      <div className="container-editorial">
-        {/* BREADCRUMB */}
-        <nav className="mb-4 flex items-center gap-2 text-sm">
-          <Link to="/" className="text-muted transition-colors hover:text-foreground">
-            HOME
-          </Link>
-          <span className="text-muted">/</span>
-          <Link
-            to="/collections"
-            className="text-muted transition-colors hover:text-foreground"
-          >
-            COLLECTIONS
-          </Link>
-          <span className="text-muted">/</span>
-          <span className="text-muted">{product.collectionName}</span>
-          <span className="text-muted">/</span>
-          <span className="text-foreground">{product.name}</span>
-        </nav>
-      </div>
-
+    <section className="pt-20 pb-6">
       {/* GRIGLIA PRODOTTO DESKTOP */}
       <div className="lg:grid lg:grid-cols-2">
         {/* COLONNA IMMAGINI */}
@@ -105,7 +85,7 @@ export default function Product() {
         {/* COLONNA INFORMAZIONI */}
         <div className="px-6 lg:px-12 lg:pt-10">
           {/* CATEGORIA */}
-          <p className="text-label text-muted mb-2 font-mono text-xs uppercase lg:text-primary">
+          <p className="text-label text-primary mb-2 font-mono text-xs uppercase">
             {product.collectionName}
           </p>
 
@@ -117,9 +97,8 @@ export default function Product() {
           {/* PREZZO */}
           <div className="mb-6 flex items-baseline gap-3">
             <span className="text-foreground font-mono text-2xl font-bold">
-              ${product.price}
+              € {product.price?.toFixed(2)}
             </span>
-            <span className="text-muted font-mono text-sm">USD</span>
           </div>
 
           {/* DESCRIZIONE */}
@@ -147,7 +126,7 @@ export default function Product() {
           >
             {addedToCart
               ? 'ADDED'
-              : `ADD TO CART — $${product.price}`}
+              : `ADD TO CART — € ${product.price?.toFixed(2)}`}
             <ArrowRight size={16} className="ml-2 hidden lg:block" />
           </button>
 
@@ -175,12 +154,12 @@ export default function Product() {
           <TrustBadges />
 
           {/* ACCORDION DETTAGLI */}
-          <ProductAccordion />
+          <ProductAccordion product={product} />
         </div>
       </div>
 
       {/* BANNER FULL-WIDTH */}
-      <div className="bg-card relative my-8 flex h-64 w-full items-end overflow-hidden lg:h-[220px] lg:items-center">
+      <div className="bg-card relative my-8 flex h-64 w-full items-end overflow-hidden lg:h-55 lg:items-center">
         {bannerImage && (
           <img
             src={bannerImage}

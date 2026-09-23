@@ -44,7 +44,7 @@ export default function SizeSelector({
       </div>
 
       {!selectedSize && (
-        <p className="text-muted-foreground mt-3 text-sm">
+        <p className="text-red-500 mt-3 text-sm">
           Please select a size to continue.
         </p>
       )}
