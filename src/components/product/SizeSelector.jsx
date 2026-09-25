@@ -11,7 +11,7 @@ export default function SizeSelector({
         </p>
         <button
           type="button"
-          className="text-label text-muted font-mono text-xs underline transition-colors hover:text-foreground"
+          className="text-label text-muted font-mono text-xs underline underline-offset-4 transition-colors hover:text-foreground"
         >
           Size Guide
         </button>

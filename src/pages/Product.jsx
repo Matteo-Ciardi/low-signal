@@ -74,7 +74,7 @@ export default function Product() {
       {/* GRIGLIA PRODOTTO DESKTOP */}
       <div className="lg:grid lg:grid-cols-2">
         {/* COLONNA IMMAGINI */}
-        <div className="px-6 lg:border-r lg:border-border lg:px-0">
+        <div className="lg:border-border px-6 lg:border-r lg:px-0">
           <ProductImageCarousel
             images={product.images}
             tag={product.tag}
@@ -90,7 +90,7 @@ export default function Product() {
           </p>
 
           {/* TITOLO */}
-          <h2 className="text-foreground mb-4 font-display text-3xl uppercase leading-tight lg:text-7xl">
+          <h2 className="text-foreground font-display mb-4 text-3xl leading-tight uppercase lg:text-7xl">
             {product.name}
           </h2>
 
@@ -103,7 +103,7 @@ export default function Product() {
 
           {/* DESCRIZIONE */}
           {product.description && (
-            <p className="text-muted-foreground mb-8 max-w-md text-sm leading-relaxed lg:border-border lg:mb-0 lg:border-b lg:pb-8">
+            <p className="text-muted-foreground lg:border-border mb-8 max-w-md text-sm leading-relaxed lg:mb-0 lg:border-b lg:pb-8">
               {product.description}
             </p>
           )}
@@ -135,7 +135,7 @@ export default function Product() {
             {/* Mobile: link testuale */}
             <button
               type="button"
-              className="text-muted inline-flex items-center gap-2 font-mono text-xs uppercase transition-colors hover:text-foreground lg:hidden"
+              className="text-muted hover:text-foreground inline-flex items-center gap-2 font-mono text-xs uppercase transition-colors lg:hidden"
             >
               BUY NOW
               <ArrowRight size={14} />
@@ -143,7 +143,7 @@ export default function Product() {
             {/* Desktop: bottone pieno bordato */}
             <button
               type="button"
-              className="text-foreground border-border hidden h-12 w-full items-center justify-center gap-2 border font-mono text-xs font-bold uppercase tracking-wide transition-colors hover:bg-white/5 lg:inline-flex"
+              className="text-foreground border-border hidden h-12 w-full items-center justify-center gap-2 border font-mono text-xs font-bold tracking-wide uppercase transition-colors hover:bg-white/5 lg:inline-flex"
             >
               BUY NOW
               <ArrowRight size={14} />
@@ -167,10 +167,10 @@ export default function Product() {
             className="absolute inset-y-0 right-0 hidden w-[30%] object-cover lg:block"
           />
         )}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent lg:hidden" />
-        <div className="absolute inset-0 hidden bg-gradient-to-r from-card via-card/70 to-transparent lg:block" />
+        <div className="absolute inset-0 bg-linear-to-t from-black/80 to-transparent lg:hidden" />
+        <div className="from-card via-card/70 absolute inset-0 hidden bg-linear-to-r to-transparent lg:block" />
         <div className="relative z-10 p-6 lg:px-10">
-          <h3 className="font-display text-4xl uppercase leading-none tracking-tight lg:text-[112px] lg:text-muted-foreground/40">
+          <h3 className="font-display lg:text-muted-foreground/40 text-4xl leading-none tracking-tight uppercase lg:text-[112px]">
             {product.collectionName}
           </h3>
         </div>
