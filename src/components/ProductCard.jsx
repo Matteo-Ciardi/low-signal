@@ -1,3 +1,5 @@
+import { useNavigate } from 'react-router-dom'
+
 const tagClasses = {
   RESTOCKED: 'bg-background text-foreground',
   'NEW DROP': 'bg-primary text-background',
@@ -7,6 +9,7 @@ const tagClasses = {
 
 export default function ProductCard({ product, onOpen }) {
   const isInteractive = typeof onOpen === 'function'
+  const navigate = useNavigate()
 
   if (!product) return null
 
@@ -19,11 +22,16 @@ export default function ProductCard({ product, onOpen }) {
     return window.matchMedia('(max-width: 1023px)').matches
   }
 
-  // Gestisce il click sull'intera card (principalmente utile per il comportamento mobile)
+  // Click sull'intera card: su mobile apre la modale Quick Add,
+  // su desktop naviga alla pagina del prodotto
   const handleActivate = () => {
-    if (!isInteractive) return
-    if (!isMobileViewport()) return // Su desktop lasciamo che usino il bottone Quick Add hoverable
-    onOpen(product)
+    if (isMobileViewport()) {
+      if (!isInteractive) return
+      onOpen(product)
+      return
+    }
+    if (!product.slug) return
+    navigate(`/product/${product.slug}`)
   }
 
   // Gestisce il click specifico sul bottone "QUICK ADD +" (visibile solo su desktop in hover)
@@ -68,14 +76,14 @@ export default function ProductCard({ product, onOpen }) {
       </div>
 
       <div className="product-card-content">
-        <div className="flex items-start justify-between gap-3">
+        <div className="flex items-center justify-between gap-3">
           <div>
             <p className="text-foreground text-lg leading-none font-semibold">
               {product.name}
             </p>
           </div>
 
-          <span className="text-mono text-foreground text-sm">
+          <span className="text-mono text-foreground text-lg">
             € {product.price?.toFixed(2)}
           </span>
         </div>
