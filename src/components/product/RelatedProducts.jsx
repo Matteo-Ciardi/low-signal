@@ -1,13 +1,9 @@
-import { ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react'
+import { ArrowRight } from 'lucide-react'
 import { motion, useMotionValue, animate } from 'motion/react'
 import { Link } from 'react-router-dom'
-import {
-  useCallback,
-  useEffect,
-  useLayoutEffect,
-  useRef,
-  useState,
-} from 'react'
+import { useEffect, useLayoutEffect, useRef, useState } from 'react'
+
+import InfiniteCarousel from '@/components/InfiniteCarousel'
 
 const tagClasses = {
   RESTOCKED: 'bg-background text-foreground',
@@ -21,7 +17,6 @@ const VISIBLE = 3
 const MOBILE_GAP = 16 // gap-4
 const MOBILE_PEEK = 0.88 // larghezza slide: 88% per anteprima del successivo
 const SPRING = { type: 'spring', stiffness: 300, damping: 30 }
-const SLIDE = { duration: 0.5, ease: 'easeInOut' }
 
 function ProductCard({ product }) {
   const primaryImg =
@@ -158,148 +153,6 @@ function MobileCarousel({ products }) {
   )
 }
 
-/* DESKTOP: carosello infinito con rotazione della lista, 3 prodotti visibili */
-function DesktopCarousel({ products }) {
-  const n = products.length
-  const maxS = n - VISIBLE
-  const x = useMotionValue(0)
-  const [step, setStep] = useState(0)
-  const [rot, setRot] = useState(0)
-  const sRef = useRef(0)
-  const settledRef = useRef(true)
-  const pendingRef = useRef(null)
-  const queueRef = useRef(0)
-  const controlsRef = useRef(null)
-  const animIdRef = useRef(0)
-  const advanceRef = useRef(null)
-  const containerRef = useRef(null)
-
-  useLayoutEffect(() => {
-    const el = containerRef.current
-    if (!el) return
-
-    const update = () => {
-      const w = el.clientWidth
-      const cardW = Math.max(0, (w - GAP * (VISIBLE - 1)) / VISIBLE)
-      setStep(cardW + GAP)
-    }
-    update()
-
-    const ro = new ResizeObserver(update)
-    ro.observe(el)
-    return () => ro.disconnect()
-  }, [])
-
-  useLayoutEffect(() => {
-    if (step === 0) return
-    animIdRef.current += 1
-    controlsRef.current?.stop()
-    queueRef.current = 0
-    settledRef.current = true
-    x.set(-sRef.current * step)
-  }, [step, x])
-
-  useEffect(() => () => controlsRef.current?.stop(), [])
-
-  const goTo = useCallback(
-    (targetX) => {
-      const id = ++animIdRef.current
-      settledRef.current = false
-      controlsRef.current = animate(x, targetX, {
-        ...SLIDE,
-        onComplete: () => {
-          if (id !== animIdRef.current) return
-          settledRef.current = true
-          const dir = queueRef.current
-          if (dir === 0) return
-          queueRef.current = 0
-          advanceRef.current?.(dir)
-        },
-      })
-    },
-    [x]
-  )
-
-  function advance(dir) {
-    if (step === 0 || maxS < 1) return
-    queueRef.current = 0
-    const nextS = sRef.current + dir
-
-    if (nextS >= 0 && nextS <= maxS) {
-      sRef.current = nextS
-      goTo(-nextS * step)
-      return
-    }
-
-    const atRest = settledRef.current || x.get() === -sRef.current * step
-    if (!atRest) {
-      queueRef.current = dir
-      return
-    }
-
-    const newRot =
-      dir > 0
-        ? (rot + sRef.current) % n
-        : (((rot + sRef.current - maxS) % n) + n) % n
-    const silentS = dir > 0 ? 0 : maxS
-    const targetS = dir > 0 ? 1 : maxS - 1
-    sRef.current = targetS
-
-    if (newRot === rot) {
-      x.set(-silentS * step)
-      goTo(-targetS * step)
-      return
-    }
-
-    pendingRef.current = { silentS, targetS }
-    setRot(newRot)
-  }
-
-  useEffect(() => {
-    advanceRef.current = advance
-  })
-
-  useLayoutEffect(() => {
-    const pending = pendingRef.current
-    if (!pending || step === 0) return
-    pendingRef.current = null
-    x.set(-pending.silentS * step)
-    goTo(-pending.targetS * step)
-  }, [rot, step, x, goTo])
-
-  const cardW = Math.max(0, step - GAP)
-  const track = Array.from({ length: n }, (_, i) => products[(rot + i) % n])
-
-  return (
-    <div ref={containerRef} className="relative overflow-hidden">
-      <motion.div className="flex gap-6" style={{ x }}>
-        {track.map((product) => (
-          <div key={product.id} className="shrink-0" style={{ width: cardW }}>
-            <ProductCard product={product} />
-          </div>
-        ))}
-      </motion.div>
-
-      <button
-        type="button"
-        onClick={() => advance(-1)}
-        aria-label="Previous products"
-        className="border-border bg-background/80 text-foreground hover:bg-background absolute top-1/2 left-0 z-10 flex h-9 w-9 -translate-y-1/2 items-center justify-center border transition-colors"
-      >
-        <ChevronLeft size={18} />
-      </button>
-      <button
-        type="button"
-        onClick={() => advance(1)}
-        aria-label="Next products"
-        className="border-border bg-background/80 text-foreground hover:bg-background absolute top-1/2 right-0 z-10 flex h-9 w-9 -translate-y-1/2 items-center justify-center border transition-colors"
-      >
-        <ChevronRight size={18} />
-      </button>
-    </div>
-  )
-}
-
 export default function RelatedProducts({ products = [] }) {
   const n = products.length
   const isCarousel = n > VISIBLE
@@ -337,7 +190,12 @@ export default function RelatedProducts({ products = [] }) {
           </div>
         ) : (
           /* Carosello infinito con rotazione, 3 visibili */
-          <DesktopCarousel products={products} />
+          <InfiniteCarousel
+            products={products}
+            visible={VISIBLE}
+            gap={GAP}
+            renderItem={(product) => <ProductCard product={product} />}
+          />
         )}
       </div>
     </section>

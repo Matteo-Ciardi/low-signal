@@ -2,6 +2,7 @@ import { useMemo, useEffect } from 'react'
 import { useProducts } from '@/hooks/useProducts'
 import { useQuickAdd } from '@/hooks/useQuickAdd'
 import ProductCard from './ProductCard'
+import InfiniteCarousel from './InfiniteCarousel'
 import QuickAddModal from './modal/QuickAddModal'
 
 export default function HomeGrid({ onProductsLoaded }) {
@@ -46,12 +47,37 @@ export default function HomeGrid({ onProductsLoaded }) {
 
   return (
     <>
-      <div className="product-grid">
-        {gridProducts.map((product) => {
-          return (
-            <ProductCard key={product.id} product={product} onOpen={open} />
-          )
-        })}
+      {/* MOBILE / TABLET: griglia invariata */}
+      <div className="lg:hidden">
+        <div className="product-grid">
+          {gridProducts.map((product) => {
+            return (
+              <ProductCard key={product.id} product={product} onOpen={open} />
+            )
+          })}
+        </div>
+      </div>
+
+      {/* DESKTOP: carosello infinito */}
+      <div className="hidden lg:block">
+        {gridProducts.length > 1 ? (
+          <InfiniteCarousel
+            products={gridProducts}
+            visible={3}
+            gap={32}
+            renderItem={(product) => (
+              <ProductCard product={product} onOpen={open} />
+            )}
+          />
+        ) : (
+          <div className="product-grid">
+            {gridProducts.map((product) => {
+              return (
+                <ProductCard key={product.id} product={product} onOpen={open} />
+              )
+            })}
+          </div>
+        )}
       </div>
 
       <QuickAddModal isOpen={isOpen} product={product} onClose={close} />
