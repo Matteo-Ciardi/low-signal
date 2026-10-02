@@ -178,7 +178,11 @@ export default function Product() {
 
       {/* PRODOTTI CORRELATI */}
       <div className="container-editorial">
-        <RelatedProducts products={relatedProducts} />
+        <RelatedProducts
+          products={relatedProducts}
+          collectionName={product.collectionName}
+          collectionId={product.collectionId}
+        />
       </div>
     </section>
   )

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useSearchParams } from 'react-router-dom'
 import { useCollections } from '@/hooks/useCollections'
 import { useQuickAdd } from '@/hooks/useQuickAdd'
 import ProductCard from '@/components/ProductCard'
@@ -13,10 +13,15 @@ const statusClasses = {
 export default function Collections() {
   const { collections, loading, error } = useCollections()
   const { isOpen, product, open, close } = useQuickAdd()
-  const [selectedCollectionId, setSelectedCollectionId] = useState(null)
+  const [searchParams, setSearchParams] = useSearchParams()
+  const collectionParam = searchParams.get('collection')
+
+  const selectCollection = (id) => {
+    setSearchParams({ collection: String(id) }, { replace: true })
+  }
 
   const selectedCollection =
-    collections.find((c) => c.id === selectedCollectionId) || collections[0]
+    collections.find((c) => String(c.id) === collectionParam) || collections[0]
 
   const showHero = !loading && !error && selectedCollection
 
@@ -32,7 +37,7 @@ export default function Collections() {
             {collections.map((collection) => (
               <button
                 key={collection.id}
-                onClick={() => setSelectedCollectionId(collection.id)}
+                onClick={() => selectCollection(collection.id)}
                 className={`px-4! text-left text-[11px]! ${
                   selectedCollection?.id === collection.id
                     ? 'btn-primary'
