@@ -4,6 +4,7 @@ import { ArrowRight, Loader2 } from 'lucide-react'
 
 import { useProduct } from '@/hooks/useProduct'
 import { useProducts } from '@/hooks/useProducts'
+import { useCart } from '@/context/CartContext'
 
 import ProductImageCarousel from '@/components/product/ProductImageCarousel'
 import SizeSelector from '@/components/product/SizeSelector'
@@ -19,6 +20,8 @@ export default function Product() {
   const [selectedSize, setSelectedSize] = useState(null)
   const [addedToCart, setAddedToCart] = useState(false)
 
+  const { addItem, openCart } = useCart()
+
   const relatedProducts = useMemo(() => {
     if (!product || !allProducts.length) return []
     return allProducts
@@ -29,7 +32,9 @@ export default function Product() {
   }, [product, allProducts])
 
   const handleAddToCart = () => {
-    if (!selectedSize) return
+    if (!selectedSize || !product) return
+    addItem(product, selectedSize)
+    openCart()
     setAddedToCart(true)
     setTimeout(() => setAddedToCart(false), 2000)
   }

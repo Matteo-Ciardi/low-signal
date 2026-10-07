@@ -2,6 +2,7 @@ import { Outlet } from 'react-router-dom'
 
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
+import CartSidebar from '@/components/cart/CartSidebar'
 
 export default function GlobalLayout() {
   return (
@@ -11,6 +12,8 @@ export default function GlobalLayout() {
           <Navbar />
         </div>
       </header>
+
+      <CartSidebar />
 
       <main>
         <Outlet />

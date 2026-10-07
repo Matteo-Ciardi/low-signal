@@ -2,6 +2,7 @@ import { useEffect, useState, useRef } from 'react'
 import { createPortal } from 'react-dom'
 
 import { useModal } from '@/hooks/useModal'
+import { useCart } from '@/context/CartContext'
 import QuickAddContent from './QuickAddContent'
 
 export default function QuickAddModal({ isOpen, product, onClose }) {
@@ -9,8 +10,17 @@ export default function QuickAddModal({ isOpen, product, onClose }) {
   const [selectedSize, setSelectedSize] = useState(null)
   const [dragY, setDragY] = useState(0)
 
+  const { addItem, openCart } = useCart()
+
   const startYRef = useRef(0)
   const isDraggingRef = useRef(false)
+
+  // Aggiunge il prodotto al carrello, chiude la modale e apre la sidebar
+  const handleAddToCart = ({ product: item, size }) => {
+    addItem(item, size)
+    onClose()
+    openCart()
+  }
 
   // Media query detection
   useEffect(() => {
@@ -87,6 +97,7 @@ export default function QuickAddModal({ isOpen, product, onClose }) {
             selectedSize={selectedSize}
             setSelectedSize={setSelectedSize}
             onClose={onClose}
+            onAddToCart={handleAddToCart}
           />
         </div>
       </div>,
@@ -128,6 +139,7 @@ export default function QuickAddModal({ isOpen, product, onClose }) {
           selectedSize={selectedSize}
           setSelectedSize={setSelectedSize}
           onClose={onClose}
+          onAddToCart={handleAddToCart}
           headerProps={{
             className: 'mb-5 flex touch-none items-start justify-between gap-4',
             onTouchStart: handleTouchStart,

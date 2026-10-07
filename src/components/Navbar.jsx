@@ -4,10 +4,12 @@ import { Menu, ShoppingBag, X, User } from 'lucide-react'
 
 import { navigation } from '@/data/navigation'
 import { useAuth } from '@/context/AuthContext'
+import { useCart } from '@/context/CartContext'
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false)
   const { user } = useAuth()
+  const { openCart } = useCart()
   const navigate = useNavigate()
   const location = useLocation()
 
@@ -57,7 +59,7 @@ export default function Navbar() {
           {/* Colonna Destra */}
           <div className="flex justify-end gap-4">
             <User className="cursor-pointer" onClick={handleProfileClick} />
-            <ShoppingBag className="cursor-pointer" />
+            <ShoppingBag className="cursor-pointer" onClick={openCart} />
           </div>
         </div>
 
@@ -107,7 +109,7 @@ export default function Navbar() {
           {/* Colonna Destra */}
           <div className="flex justify-end gap-4">
             <User className="cursor-pointer" onClick={handleProfileClick} />
-            <ShoppingBag className="cursor-pointer" />
+            <ShoppingBag className="cursor-pointer" onClick={openCart} />
           </div>
         </div>
       </nav>
