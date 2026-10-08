@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom'
 
 const tagClasses = {
-  RESTOCKED: 'bg-background text-foreground',
+  RESTOCKED: 'bg-muted text-foreground',
   'NEW DROP': 'bg-primary text-background',
   LIMITED: 'bg-foreground text-background',
   'SOLD OUT': 'bg-secondary text-foreground',

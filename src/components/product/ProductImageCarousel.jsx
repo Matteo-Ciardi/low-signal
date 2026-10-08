@@ -2,7 +2,7 @@ import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { useState } from 'react'
 
 const tagClasses = {
-  RESTOCKED: 'bg-background text-foreground',
+  RESTOCKED: 'bg-muted text-foreground',
   'NEW DROP': 'bg-primary text-background',
   LIMITED: 'bg-foreground text-background',
   'SOLD OUT': 'bg-secondary text-foreground',
@@ -20,8 +20,8 @@ export default function ProductImageCarousel({ images = [], tag, name }) {
   }
 
   return (
-    <div className="mb-6">
-      <div className="bg-card relative aspect-[4/5] w-full overflow-hidden">
+    <div className="mb-6 lg:flex lg:h-[calc(100vh-6.5rem)] lg:flex-col">
+      <div className="bg-transparent relative aspect-[4/5] w-full overflow-hidden lg:aspect-auto lg:min-h-0 lg:flex-1">
         <span
           className={`text-label absolute top-4 left-4 z-20 inline-flex px-3 py-2 font-bold ${
             tagClasses[tag] ?? 'bg-card text-foreground'
@@ -33,7 +33,7 @@ export default function ProductImageCarousel({ images = [], tag, name }) {
         <img
           src={images[currentIndex]?.imageUrl}
           alt={name}
-          className="h-full w-full object-cover"
+          className="h-full w-full object-contain"
         />
 
         {/* Contatore mobile */}
@@ -43,7 +43,7 @@ export default function ProductImageCarousel({ images = [], tag, name }) {
         </span>
 
         {/* Contatore desktop */}
-        <span className="text-mono text-foreground bg-background/80 absolute bottom-4 left-4 hidden px-2 py-1 text-xs lg:block">
+        <span className="text-mono text-primary bg-background/80 absolute bottom-4 left-4 hidden px-2 py-1 text-sm lg:block">
           {String(currentIndex + 1).padStart(2, '0')} /{' '}
           {String(images.length).padStart(2, '0')}
         </span>
@@ -53,18 +53,18 @@ export default function ProductImageCarousel({ images = [], tag, name }) {
           <button
             type="button"
             onClick={() => goTo(currentIndex - 1)}
-            className="border-border bg-background/80 text-foreground flex h-9 w-9 items-center justify-center border transition-colors hover:bg-background"
+            className="border-primary bg-background/80 text-foreground hover:bg-background flex h-9 w-9 items-center justify-center border transition-colors"
             aria-label="Previous image"
           >
-            <ChevronLeft size={18} />
+            <ChevronLeft className='text-primary' size={18} />
           </button>
           <button
             type="button"
             onClick={() => goTo(currentIndex + 1)}
-            className="border-border bg-background/80 text-foreground flex h-9 w-9 items-center justify-center border transition-colors hover:bg-background"
+            className="border-primary bg-background/80 text-foreground hover:bg-background flex h-9 w-9 items-center justify-center border transition-colors"
             aria-label="Next image"
           >
-            <ChevronRight size={18} />
+            <ChevronRight className='text-primary' size={18} />
           </button>
         </div>
       </div>
@@ -74,7 +74,7 @@ export default function ProductImageCarousel({ images = [], tag, name }) {
         <button
           type="button"
           onClick={() => goTo(currentIndex - 1)}
-          className="text-muted p-2 transition-colors hover:text-foreground"
+          className="text-muted hover:text-foreground p-2 transition-colors"
           aria-label="Previous image"
         >
           <ChevronLeft size={20} />
@@ -104,7 +104,7 @@ export default function ProductImageCarousel({ images = [], tag, name }) {
         <button
           type="button"
           onClick={() => goTo(currentIndex + 1)}
-          className="text-muted p-2 transition-colors hover:text-foreground"
+          className="text-muted hover:text-foreground p-2 transition-colors"
           aria-label="Next image"
         >
           <ChevronRight size={20} />
@@ -112,7 +112,7 @@ export default function ProductImageCarousel({ images = [], tag, name }) {
       </div>
 
       {/* Strip thumbnail desktop */}
-      <div className="mt-2 hidden grid-cols-4 gap-2 lg:grid">
+      <div className="mt-2 hidden grid-cols-4 gap-2 lg:grid lg:shrink-0">
         {images.map((img, i) => (
           <button
             key={img.id || i}
@@ -120,7 +120,7 @@ export default function ProductImageCarousel({ images = [], tag, name }) {
             onClick={() => setCurrentIndex(i)}
             className={`aspect-[4/3] overflow-hidden transition-all ${
               i === currentIndex
-                ? 'border-b-2 border-primary opacity-100'
+                ? 'border-primary border-b-2 opacity-100'
                 : 'border-b-2 border-transparent opacity-50 hover:opacity-75'
             }`}
           >

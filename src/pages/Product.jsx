@@ -75,16 +75,12 @@ export default function Product() {
     )
   }
 
-  const bannerImage =
-    product.images?.find((img) => img.isPrimary)?.imageUrl ||
-    product.images?.[0]?.imageUrl
-
   return (
     <section className="pt-20 pb-6">
       {/* GRIGLIA PRODOTTO DESKTOP */}
-      <div className="lg:grid lg:grid-cols-2">
+      <div className="container-editorial lg:grid lg:grid-cols-2">
         {/* COLONNA IMMAGINI */}
-        <div className="lg:border-border px-6 lg:border-r lg:px-0">
+        <div className="lg:pr-0">
           <ProductImageCarousel
             images={product.images}
             tag={product.tag}
@@ -93,7 +89,7 @@ export default function Product() {
         </div>
 
         {/* COLONNA INFORMAZIONI */}
-        <div className="px-6 lg:px-12 lg:pt-10">
+        <div className="lg:pt-10 lg:pl-12">
           {/* CATEGORIA */}
           <p className="text-label text-primary mb-2 font-mono text-xs uppercase">
             {product.collectionName}
@@ -170,19 +166,15 @@ export default function Product() {
       </div>
 
       {/* BANNER FULL-WIDTH */}
-      <div className="bg-card relative my-8 flex h-64 w-full items-end overflow-hidden lg:h-55 lg:items-center">
-        {bannerImage && (
-          <img
-            src={bannerImage}
-            alt={product.collectionName}
-            className="absolute inset-y-0 right-0 hidden w-[30%] object-cover lg:block"
-          />
-        )}
-        <div className="absolute inset-0 bg-linear-to-t from-black/80 to-transparent lg:hidden" />
-        <div className="from-card via-card/70 absolute inset-0 hidden bg-linear-to-r to-transparent lg:block" />
-        <div className="relative z-10 p-6 lg:px-10">
-          <h3 className="font-display lg:text-muted-foreground/40 text-4xl leading-none tracking-tight uppercase lg:text-[112px]">
+      <div className="bg-card relative my-8 flex min-h-25 w-full items-center overflow-hidden">
+        {/* <div className="absolute inset-0 bg-linear-to-t from-black/80 to-transparent lg:hidden" /> */}
+        {/* <div className="from-card via-card/70 absolute inset-0 hidden bg-linear-to-r to-transparent lg:block" /> */}
+        <div className="container-editorial relative z-10 flex flex-wrap justify-between gap-6 py-6">
+          <h3 className="font-display text-border text-[8vw] leading-none tracking-tight whitespace-nowrap uppercase lg:text-[112px]">
             {product.collectionName}
+          </h3>
+          <h3 className="font-display text-primary text-[8vw] leading-none tracking-tight whitespace-nowrap uppercase lg:text-[112px]">
+            RELATED
           </h3>
         </div>
       </div>

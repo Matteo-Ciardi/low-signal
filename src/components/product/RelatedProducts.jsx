@@ -6,7 +6,7 @@ import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 import InfiniteCarousel from '@/components/InfiniteCarousel'
 
 const tagClasses = {
-  RESTOCKED: 'bg-background text-foreground',
+  RESTOCKED: 'bg-muted text-foreground',
   'NEW DROP': 'bg-primary text-background',
   LIMITED: 'bg-foreground text-background',
   'SOLD OUT': 'bg-secondary text-foreground',
@@ -292,12 +292,12 @@ export default function RelatedProducts({
     <section className="mt-12 mb-16 lg:mt-16">
       {/* HEADER */}
       <div className="mb-6 flex items-center justify-between lg:gap-4">
-        <h3 className="text-label font-mono text-xs font-bold uppercase">
+        {/* <h3 className="text-label font-mono text-xs font-bold uppercase">
           Also in{' '}
           <span className="text-primary">
             {resolvedName ?? 'this collection'}
           </span>
-        </h3>
+        </h3> */}
         <div className="bg-border hidden h-px flex-1 lg:block" />
         <Link
           to={collectionLink}
