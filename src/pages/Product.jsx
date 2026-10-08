@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useCallback, useMemo, useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { ArrowRight, Loader2 } from 'lucide-react'
 
@@ -11,6 +11,7 @@ import SizeSelector from '@/components/product/SizeSelector'
 import TrustBadges from '@/components/product/TrustBadges'
 import ProductAccordion from '@/components/product/ProductAccordion'
 import RelatedProducts from '@/components/product/RelatedProducts'
+import SizeGuideModal from '@/components/modal/SizeGuideModal'
 
 export default function Product() {
   const { slug } = useParams()
@@ -19,6 +20,10 @@ export default function Product() {
 
   const [selectedSize, setSelectedSize] = useState(null)
   const [addedToCart, setAddedToCart] = useState(false)
+  const [isSizeGuideOpen, setIsSizeGuideOpen] = useState(false)
+
+  const openSizeGuide = useCallback(() => setIsSizeGuideOpen(true), [])
+  const closeSizeGuide = useCallback(() => setIsSizeGuideOpen(false), [])
 
   const { addItem, openCart } = useCart()
 
@@ -119,6 +124,7 @@ export default function Product() {
               variants={product.variants}
               selectedSize={selectedSize}
               onSelectSize={setSelectedSize}
+              onSizeGuide={openSizeGuide}
             />
           </div>
 
@@ -189,6 +195,9 @@ export default function Product() {
           collectionId={product.collectionId}
         />
       </div>
+
+      {/* MODALE SIZE GUIDE */}
+      <SizeGuideModal isOpen={isSizeGuideOpen} onClose={closeSizeGuide} />
     </section>
   )
 }

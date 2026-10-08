@@ -2,6 +2,7 @@ export default function SizeSelector({
   variants = [],
   selectedSize,
   onSelectSize,
+  onSizeGuide,
 }) {
   return (
     <div className="mb-4">
@@ -11,7 +12,8 @@ export default function SizeSelector({
         </p>
         <button
           type="button"
-          className="text-label text-muted font-mono text-xs underline underline-offset-4 transition-colors hover:text-foreground"
+          onClick={onSizeGuide}
+          className="text-label text-muted hover:text-foreground font-mono text-xs underline underline-offset-4 transition-colors"
         >
           Size Guide
         </button>
@@ -44,7 +46,7 @@ export default function SizeSelector({
       </div>
 
       {!selectedSize && (
-        <p className="text-red-500 mt-3 text-sm">
+        <p className="mt-3 text-sm text-red-500">
           Please select a size to continue.
         </p>
       )}
