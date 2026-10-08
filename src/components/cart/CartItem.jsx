@@ -23,9 +23,21 @@ export default function CartItem({ item }) {
 
       {/* DETTAGLI */}
       <div className="flex min-w-0 flex-1 flex-col">
-        <p className="text-foreground font-body truncate text-xs leading-4 font-bold tracking-[1.44px] uppercase">
-          {item.name}
-        </p>
+        {/* RIGA HEADER: nome + REMOVE */}
+        <div className="flex items-start justify-between gap-3">
+          <p className="text-foreground font-body min-w-0 flex-1 truncate text-xs leading-4 font-bold tracking-[1.44px] uppercase">
+            {item.name}
+          </p>
+
+          <button
+            type="button"
+            onClick={() => removeItem(item.key)}
+            aria-label={`Rimuovi ${item.name} dal carrello`}
+            className="text-muted-foreground font-mono shrink-0 text-[10px] leading-4 tracking-[1.2px] uppercase transition-colors hover:text-primary"
+          >
+            Remove
+          </button>
+        </div>
 
         <p className="text-muted-foreground font-mono mt-1 text-xs leading-4 tracking-[1.2px] uppercase">
           SZ: {item.size}
